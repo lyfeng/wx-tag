@@ -1,0 +1,70 @@
+/* pages/tagSuccess/tagSuccess.wxss */
+
+/* 返回首页按钮 */
+.home-button {
+  position: fixed;
+  top: 60rpx;
+  left: 30rpx;
+  width: 80rpx;
+  height: 80rpx;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 40rpx;
+  background-color: rgba(255, 255, 255, 0.9);
+  box-shadow: 0 4rpx 12rpx rgba(0, 0, 0, 0.1);
+  z-index: 100;
+}
+
+.home-icon {
+  font-size: 36rpx;
+}
+
+.container {
+  min-height: 100vh;
+  background-color: #f8f8f8;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.content {
+  text-align: center;
+  padding: 60rpx 40rpx;
+  background-color: #fff;
+  border-radius: 16rpx;
+  margin: 0 40rpx;
+  box-shadow: 0 4rpx 12rpx rgba(0, 0, 0, 0.1);
+}
+
+.success-icon {
+  font-size: 120rpx;
+  margin-bottom: 40rpx;
+}
+
+.success-title {
+  display: block;
+  font-size: 36rpx;
+  font-weight: bold;
+  color: #333;
+  margin-bottom: 20rpx;
+}
+
+.success-desc {
+  display: block;
+  font-size: 28rpx;
+  color: #666;
+  margin-bottom: 60rpx;
+}
+
+.back-home-btn {
+  background-color: #4095E5;
+  color: white;
+  border-radius: 45rpx;
+  font-size: 32rpx;
+  height: 90rpx;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: none;
+} 

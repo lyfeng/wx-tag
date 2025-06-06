@@ -1,0 +1,53 @@
+<view class="container">
+  <view class="page-header">
+    <view class="home-button" bindtap="goBack">
+      <text class="home-icon">←</text>
+    </view>
+    <text class="header-title">用户详情</text>
+  </view>
+
+  <!-- 加载中 -->
+  <view class="loading-container" wx:if="{{loading}}">
+    <view class="loading"></view>
+    <text>加载中...</text>
+  </view>
+
+  <block wx:else>
+    <!-- 用户资料 -->
+    <view class="user-profile">
+      <view class="large-avatar">{{userInfo.avatar}}</view>
+      <text class="user-name">{{userInfo.username}}</text>
+      <view class="tag-stats">
+        <text class="stats-text">获得了 <text class="tag-count">{{userInfo.tags.length || 0}}</text> 个标签</text>
+        <text class="stats-text">来自朋友们的真实评价</text>
+      </view>
+    </view>
+
+    <!-- 标签展示 -->
+    <view class="section-title">Ta的标签</view>
+    <view class="tag-list">
+      <block wx:if="{{userInfo.tags && userInfo.tags.length > 0}}">
+        <view class="tag-item-bubble" wx:for="{{userInfo.tags}}" wx:key="*this" wx:for-item="tag">
+          <text class="bubble-name">{{tag}}</text>
+        </view>
+      </block>
+      <view class="empty-tags" wx:else>
+        <text>暂无标签</text>
+      </view>
+    </view>
+
+    <!-- AI分析 -->
+    <view class="section-title">AI分析评语</view>
+    <view class="comment-box">
+      <text class="comment-text">{{userInfo.summary || '这是一个很有趣的人，值得深入了解。'}}</text>
+    </view>
+  </block>
+
+  <!-- 开始标签按钮 -->
+  <view class="action-container">
+    <button class="start-button" bindtap="startTagging">
+      <text class="button-text">开始我的标签之旅</text>
+      <text class="button-subtitle">让朋友们来评价你</text>
+    </button>
+  </view>
+</view>

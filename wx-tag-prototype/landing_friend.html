@@ -1,0 +1,194 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>微标签 - 好友详情</title>
+    <link rel="stylesheet" href="css/weui.min.css">
+    <style>
+        .page-header {
+            padding: 15px;
+            text-align: center;
+            font-size: 18px;
+            font-weight: bold;
+            background-color: #fff;
+            border-bottom: 1px solid rgba(0,0,0,0.1);
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            z-index: 100;
+        }
+        .back-btn {
+            position: absolute;
+            left: 15px;
+            top: 15px;
+            cursor: pointer;
+        }
+        .user-profile {
+            margin-top: 49px;
+            padding: 30px 20px;
+            background-color: #fff;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            border-bottom: 1px solid rgba(0,0,0,0.05);
+        }
+        .large-avatar {
+            width: 80px;
+            height: 80px;
+            border-radius: 8px;
+            background-color: #f2f2f2;
+            margin-bottom: 15px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 24px;
+            color: #999;
+        }
+        .tag-stats {
+            margin-top: 10px;
+            text-align: center;
+        }
+        .tag-row {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 15px;
+            background-color: #fff;
+            border-bottom: 1px solid rgba(0,0,0,0.05);
+        }
+        .tag-name {
+            font-size: 16px;
+        }
+        .section-title {
+            padding: 15px;
+            font-size: 16px;
+            font-weight: bold;
+            background-color: #f8f8f8;
+        }
+        .comment-box {
+            padding: 15px;
+            font-size: 14px;
+            line-height: 1.6;
+            color: #333;
+            background-color: #fff;
+        }
+        .tag-list {
+            display: flex;
+            flex-wrap: wrap;
+            padding: 15px;
+            background-color: #fff;
+        }
+        .tag-item {
+            padding: 8px 15px;
+            background-color: #f2f2f2;
+            border-radius: 18px;
+            margin-right: 10px;
+            margin-bottom: 10px;
+            font-size: 14px;
+        }
+        .action-button {
+            display: inline-block;
+            background-color: #07C160;
+            color: white;
+            border-radius: 20px;
+            padding: 8px 20px;
+            margin-top: 20px;
+            font-size: 14px;
+            cursor: pointer;
+            text-decoration: none;
+        }
+    </style>
+</head>
+<body>
+    <div class="page">
+        <div class="page-header">
+            <span class="back-btn" onclick="navigateTo('landing.html')">←</span>
+            好友详情
+        </div>
+        
+        <div class="user-profile">
+            <div class="large-avatar" id="friend-avatar-initial">张</div>
+            <div style="font-size: 18px; font-weight: bold;" id="friend-name">张三</div>
+            <div class="tag-stats">
+                <div style="color: #999;">Ta收到了 <span id="tag-count">8</span> 个标签</div>
+            </div>
+            <div class="action-button" onclick="navigateTo('tag_for_friend.html?friendId=' + document.getElementById('friend-name').textContent)">
+                给Ta标签
+            </div>
+        </div>
+        
+        <div class="section-title">Ta的热门标签</div>
+        
+        <div class="tag-row">
+            <div class="tag-name">温柔</div>
+            <div style="color: #07C160;">5人</div>
+        </div>
+        
+        <div class="tag-row">
+            <div class="tag-name">细心</div>
+            <div style="color: #07C160;">4人</div>
+        </div>
+        
+        <div class="tag-row">
+            <div class="tag-name">善良</div>
+            <div style="color: #07C160;">3人</div>
+        </div>
+        
+        <div class="tag-row">
+            <div class="tag-name">有创意</div>
+            <div style="color: #07C160;">2人</div>
+        </div>
+        
+        <div class="section-title">AI分析评语</div>
+        
+        <div class="comment-box" id="ai-comment">
+            张三在朋友眼中是一个温柔细心的人，善于创新思考。他待人亲切，乐于助人，能够关注到细节，同时思维活跃，常有创意的想法和解决方案。是一个值得信赖的朋友。
+        </div>
+    </div>
+    
+    <script src="js/app.js"></script>
+    <script>
+        // 解析URL参数
+        function getQueryParam(name) {
+            const urlParams = new URLSearchParams(window.location.search);
+            return urlParams.get(name);
+        }
+        
+        // 设置好友信息
+        window.onload = function() {
+            const friendName = getQueryParam('friend');
+            if (friendName) {
+                document.getElementById('friend-name').textContent = friendName;
+                document.getElementById('friend-avatar-initial').textContent = friendName.charAt(0);
+                
+                // 根据不同好友显示不同的信息
+                if (friendName === '李四') {
+                    document.getElementById('tag-count').textContent = '6';
+                    document.querySelector('.tag-row:nth-child(1) .tag-name').textContent = '美丽';
+                    document.querySelector('.tag-row:nth-child(1) div:last-child').textContent = '4人';
+                    document.querySelector('.tag-row:nth-child(2) .tag-name').textContent = '善良';
+                    document.querySelector('.tag-row:nth-child(2) div:last-child').textContent = '3人';
+                    document.querySelector('.tag-row:nth-child(3) .tag-name').textContent = '聪明';
+                    document.querySelector('.tag-row:nth-child(3) div:last-child').textContent = '3人';
+                    document.querySelector('.tag-row:nth-child(4) .tag-name').textContent = '优雅';
+                    document.querySelector('.tag-row:nth-child(4) div:last-child').textContent = '2人';
+                    document.getElementById('ai-comment').textContent = '李四是一个美丽善良的女孩，聪明睿智。她不仅外表出众，更拥有善良的内心，待人真诚友善。她的聪明才智让她在学习和工作中游刃有余，常能提出独到见解。';
+                } else if (friendName === '王五') {
+                    document.getElementById('tag-count').textContent = '7';
+                    document.querySelector('.tag-row:nth-child(1) .tag-name').textContent = '幽默';
+                    document.querySelector('.tag-row:nth-child(1) div:last-child').textContent = '5人';
+                    document.querySelector('.tag-row:nth-child(2) .tag-name').textContent = '阳光';
+                    document.querySelector('.tag-row:nth-child(2) div:last-child').textContent = '4人';
+                    document.querySelector('.tag-row:nth-child(3) .tag-name').textContent = '乐观';
+                    document.querySelector('.tag-row:nth-child(3) div:last-child').textContent = '3人';
+                    document.querySelector('.tag-row:nth-child(4) .tag-name').textContent = '活泼';
+                    document.querySelector('.tag-row:nth-child(4) div:last-child').textContent = '2人';
+                    document.getElementById('ai-comment').textContent = '王五是一个充满幽默感和阳光气质的人。他总能在恰当的时机说出令人捧腹的话语，让周围的氛围充满欢乐。他积极乐观的态度如同阳光般温暖，给身边的人带来正能量。';
+                }
+            }
+        };
+    </script>
+</body>
+</html>

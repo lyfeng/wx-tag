@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>微标签 - 提交成功</title>
+    <link rel="stylesheet" href="css/weui.min.css">
+    <style>
+        .success-container {
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+        }
+        .success-icon {
+            width: 80px;
+            height: 80px;
+            background-color: #07C160;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 36px;
+            margin-bottom: 20px;
+        }
+        .success-title {
+            font-size: 22px;
+            font-weight: bold;
+            margin-bottom: 15px;
+        }
+        .success-msg {
+            font-size: 16px;
+            color: #888;
+            text-align: center;
+            margin-bottom: 40px;
+        }
+        .action-btn {
+            width: 90%;
+            margin: 10px auto;
+            text-align: center;
+            padding: 12px 0;
+            border-radius: 4px;
+            font-weight: bold;
+        }
+        .primary-btn {
+            background-color: #07C160;
+            color: white;
+        }
+        .secondary-btn {
+            background-color: #f2f2f2;
+            color: #333;
+        }
+    </style>
+</head>
+<body>
+    <div class="page">
+        <div class="success-container">
+            <div class="success-icon">✓</div>
+            <div class="success-title">标签提交成功！</div>
+            <div class="success-msg">感谢您的参与，您的标签已成功发送给您的朋友。</div>
+            
+            <div class="action-btn primary-btn" onclick="shareToFriends()">
+                也邀请朋友给我打标签
+            </div>
+            
+            <div class="action-btn secondary-btn" onclick="navigateTo('index.html')">
+                返回首页
+            </div>
+        </div>
+    </div>
+    
+    <script src="js/app.js"></script>
+</body>
+</html> 

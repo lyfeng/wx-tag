@@ -1,0 +1,15 @@
+<!--pages/tagSuccess/tagSuccess.wxml-->
+<view class="container">
+  <!-- 返回首页按钮 -->
+  <view class="home-button" bindtap="goHome">
+    <text class="home-icon">🏠</text>
+  </view>
+  
+  <view class="content">
+    <view class="success-icon">✅</view>
+    <text class="success-title">标签提交成功！</text>
+    <text class="success-desc">感谢你为朋友贴标签</text>
+    
+    <button class="back-home-btn" bindtap="goHome">返回首页</button>
+  </view>
+</view>

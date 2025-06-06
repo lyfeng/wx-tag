@@ -1,0 +1,53 @@
+server:
+  port: 8080
+  servlet:
+    context-path: /api
+
+spring:
+  datasource:
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    url: jdbc:mysql://localhost:3306/wx_tag?useUnicode=true&characterEncoding=utf8&serverTimezone=Asia/Shanghai
+    username: root
+    password: 282818
+  jackson:
+    date-format: yyyy-MM-dd HH:mm:ss
+    time-zone: GMT+8
+  application:
+    name: wx-tag-backend-api
+
+mybatis:
+  mapper-locations: classpath:mapper/*.xml
+  type-aliases-package: com.wxtag.entity
+  configuration:
+    map-underscore-to-camel-case: true
+    log-impl: org.apache.ibatis.logging.stdout.StdOutImpl
+
+# 微信小程序配置
+wx:
+  miniapp:
+    appid: wxd65202562242a6c6
+    secret: f3f190131b3557acb7f2cad6c122424f
+    token: # 可选
+    aesKey: # 可选
+    msgDataFormat: JSON
+
+# 阿里云通义千问大模型配置
+aliyun:
+  apiKey: ${ALIYUN_API_KEY:sk-255b89368b474b32ac836851585440f5}
+  modelName: qwen-turbo
+  apiUrl: https://dashscope.aliyuncs.com/api/v1/services/aigc/text-generation/generation
+  temperature: 0.7
+  maxTokens: 1500
+
+logging:
+  level:
+    com.wxtag: debug 
+
+# AI评语配置
+ai:
+  comment:
+    minTaggerCount: 3
+
+jwt:
+  secret: ${JWT_SECRET:your-jwt-secret-key}
+  expiration: 7200000  # 2小时过期

@@ -1,0 +1,41 @@
+<view class="container">
+  <!-- 头部标题 -->
+  <view class="header">
+    <view class="title-container">
+      <text class="main-title">匿名标签</text>
+      <text class="sub-title">发现朋友眼中的你</text>
+    </view>
+    <view class="avatar-container">
+      <view class="header-avatar">👤</view>
+    </view>
+  </view>
+
+  <!-- 标签记录列表 -->
+  <view class="records-container">
+    <view class="section-title">
+      <text class="title-text">看看大家都在说什么</text>
+      <text class="subtitle-text">真实的朋友圈反馈</text>
+    </view>
+    
+    <view class="record-item" wx:for="{{tagRecords}}" wx:key="index" bindtap="viewUserDetail" data-index="{{index}}">
+      <view class="user-info">
+        <view class="user-avatar">{{item.avatar}}</view>
+        <text class="username">{{item.username}}</text>
+      </view>
+      <view class="record-content">
+        <view class="tags-container">
+          <text class="tag-item" wx:for="{{item.tags}}" wx:key="*this" wx:for-item="tag">{{tag}}</text>
+        </view>
+        <text class="record-text">{{item.summary}}</text>
+      </view>
+    </view>
+  </view>
+
+  <!-- 开始标签按钮 -->
+  <view class="action-container">
+    <button class="start-button" bindtap="startTagging">
+      <text class="button-text">开始我的标签之旅</text>
+      <text class="button-subtitle">让朋友们来评价你</text>
+    </button>
+  </view>
+</view>

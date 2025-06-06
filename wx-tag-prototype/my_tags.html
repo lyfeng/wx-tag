@@ -1,0 +1,275 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>微标签 - 我的标签</title>
+    <link rel="stylesheet" href="css/weui.min.css">
+    <style>
+        .page-header {
+            padding: 15px;
+            text-align: center;
+            font-size: 18px;
+            font-weight: bold;
+            background-color: #fff;
+            border-bottom: 1px solid rgba(0,0,0,0.1);
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            z-index: 100;
+        }
+        .back-btn {
+            position: absolute;
+            left: 15px;
+            top: 15px;
+        }
+        .user-profile {
+            margin-top: 49px;
+            padding: 30px 20px;
+            background-color: #fff;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            border-bottom: 1px solid rgba(0,0,0,0.05);
+        }
+        .large-avatar {
+            width: 80px;
+            height: 80px;
+            border-radius: 8px;
+            background-color: #f2f2f2;
+            margin-bottom: 15px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 24px;
+            color: #999;
+        }
+        .tag-stats {
+            margin-top: 10px;
+            text-align: center;
+        }
+        .tag-row {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 15px;
+            background-color: #fff;
+            border-bottom: 1px solid rgba(0,0,0,0.05);
+        }
+        .tag-name {
+            font-size: 16px;
+        }
+        .tag-progress {
+            height: 6px;
+            background-color: #f2f2f2;
+            border-radius: 3px;
+            width: 60%;
+            position: relative;
+            overflow: hidden;
+        }
+        .tag-progress-fill {
+            position: absolute;
+            height: 100%;
+            background-color: #07C160;
+            border-radius: 3px;
+        }
+        .tag-count-text {
+            font-size: 14px;
+            color: #07C160;
+            width: 10%;
+            text-align: right;
+        }
+        .section-title {
+            padding: 15px;
+            font-size: 16px;
+            font-weight: bold;
+            background-color: #f8f8f8;
+        }
+        .share-btn {
+            display: inline-block;
+            background-color: #07C160;
+            color: white;
+            border-radius: 20px;
+            padding: 8px 20px;
+            margin-top: 20px;
+            font-size: 14px;
+        }
+        /* 标签明细样式 */
+        .tag-detail-list {
+            background-color: #fff;
+        }
+        .tag-detail-item {
+            padding: 10px 15px;
+            border-bottom: 1px solid rgba(0,0,0,0.05);
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+        .tag-detail-left {
+            display: flex;
+            align-items: center;
+        }
+        .tag-user-avatar {
+            width: 36px;
+            height: 36px;
+            border-radius: 4px;
+            margin-right: 10px;
+            background-color: #f2f2f2;
+        }
+        .tag-user-info {
+            display: flex;
+            flex-direction: column;
+        }
+        .tag-user-name {
+            font-size: 14px;
+            font-weight: bold;
+        }
+        .tag-time {
+            font-size: 12px;
+            color: #999;
+            margin-top: 2px;
+        }
+        .tag-detail-right {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 6px;
+            justify-content: flex-end;
+            max-width: 50%;
+        }
+        .tag-pill {
+            display: inline-block;
+            padding: 4px 8px;
+            background-color: #f2f7f2;
+            color: #07C160;
+            border-radius: 12px;
+            font-size: 12px;
+            text-align: center;
+        }
+    </style>
+</head>
+<body>
+    <div class="page">
+        <div class="page-header">
+            <span class="back-btn" onclick="navigateTo('home.html')">←</span>
+            我的标签
+        </div>
+        
+        <div class="user-profile">
+            <div class="large-avatar">头像</div>
+            <div style="font-size: 18px; font-weight: bold;">微信用户</div>
+            <div class="tag-stats">
+                <div style="color: #999;">已收到 8 个标签，共有 15 人为你打标签</div>
+            </div>
+            <div class="share-btn" onclick="alert('分享功能将在正式版实现')">邀请更多好友打标签</div>
+        </div>
+        
+        <div class="section-title">标签排行榜</div>
+        
+        <div class="tag-row">
+            <div class="tag-name">温柔</div>
+            <div class="tag-progress">
+                <div class="tag-progress-fill" style="width: 100%;"></div>
+            </div>
+            <div class="tag-count-text">5人</div>
+        </div>
+        
+        <div class="tag-row">
+            <div class="tag-name">善良</div>
+            <div class="tag-progress">
+                <div class="tag-progress-fill" style="width: 80%;"></div>
+            </div>
+            <div class="tag-count-text">4人</div>
+        </div>
+        
+        <div class="tag-row">
+            <div class="tag-name">细心</div>
+            <div class="tag-progress">
+                <div class="tag-progress-fill" style="width: 60%;"></div>
+            </div>
+            <div class="tag-count-text">3人</div>
+        </div>
+        
+        <div class="tag-row">
+            <div class="tag-name">幽默</div>
+            <div class="tag-progress">
+                <div class="tag-progress-fill" style="width: 40%;"></div>
+            </div>
+            <div class="tag-count-text">2人</div>
+        </div>
+        
+        <div class="tag-row">
+            <div class="tag-name">勇敢</div>
+            <div class="tag-progress">
+                <div class="tag-progress-fill" style="width: 20%;"></div>
+            </div>
+            <div class="tag-count-text">1人</div>
+        </div>
+        
+        <div class="section-title">AI分析评语</div>
+        
+        <div style="padding: 15px;">
+            <div class="comment-box">
+                在朋友眼中，你是一个温柔善良的人，对他人细心体贴。你的幽默感让人愉快，同时也展现出勇敢面对挑战的一面。继续保持这些优秀的品质，你的魅力会感染更多人！
+            </div>
+        </div>
+        
+        <div class="section-title">标签明细</div>
+        
+        <div class="tag-detail-list">
+            <div class="tag-detail-item">
+                <div class="tag-detail-left">
+                    <img src="img/default-avatar.png" alt="用户头像" class="tag-user-avatar">
+                    <div class="tag-user-info">
+                        <div class="tag-user-name">张三</div>
+                        <div class="tag-time">2023-06-15</div>
+                    </div>
+                </div>
+                <div class="tag-detail-right">
+                    <span class="tag-pill">温柔</span>
+                    <span class="tag-pill">善良</span>
+                </div>
+            </div>
+            
+            <div class="tag-detail-item">
+                <div class="tag-detail-left">
+                    <img src="img/default-avatar.png" alt="用户头像" class="tag-user-avatar">
+                    <div class="tag-user-info">
+                        <div class="tag-user-name">李四</div>
+                        <div class="tag-time">2023-06-10</div>
+                    </div>
+                </div>
+                <div class="tag-detail-right">
+                    <span class="tag-pill">细心</span>
+                    <span class="tag-pill">幽默</span>
+                </div>
+            </div>
+            
+            <div class="tag-detail-item">
+                <div class="tag-detail-left">
+                    <img src="img/default-avatar.png" alt="用户头像" class="tag-user-avatar">
+                    <div class="tag-user-info">
+                        <div class="tag-user-name">王五</div>
+                        <div class="tag-time">2023-06-05</div>
+                    </div>
+                </div>
+                <div class="tag-detail-right">
+                    <span class="tag-pill">温柔</span>
+                    <span class="tag-pill">勇敢</span>
+                </div>
+            </div>
+        </div>
+        
+        <!-- 底部导航栏 -->
+        <div class="navbar">
+            <div class="navbar-item" onclick="navigateTo('home.html')">
+                <div>首页</div>
+            </div>
+            <div class="navbar-item active">
+                <div>我的</div>
+            </div>
+        </div>
+    </div>
+    <script src="js/app.js"></script>
+</body>
+</html> 

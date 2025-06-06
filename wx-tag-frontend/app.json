@@ -1,0 +1,43 @@
+{
+  "pages": [
+    "pages/landing/landing",
+    "pages/landingDetail/landingDetail",
+    "pages/home/home",
+    "pages/index/index",
+    "pages/myTags/myTags",
+    "pages/tagSelection/tagSelection",
+    "pages/tagForFriend/tagForFriend",
+    "pages/tagSuccess/tagSuccess",
+    "pages/taggedByMe/taggedByMe",
+    "pages/friendDetail/friendDetail",
+    "pages/inviteTasks/inviteTasks"
+  ],
+  "window": {
+    "backgroundTextStyle": "light",
+    "navigationBarBackgroundColor": "#4095E5",
+    "navigationBarTitleText": "微标签",
+    "navigationBarTextStyle": "white"
+  },
+  "tabBar": {
+    "custom": true,
+    "color": "#999999",
+    "selectedColor": "#4095E5",
+    "backgroundColor": "#ffffff",
+    "borderStyle": "black",
+    "list": [
+      {
+        "pagePath": "pages/home/home",
+        "text": "首页"
+      },
+      {
+        "pagePath": "pages/myTags/myTags",
+        "text": "我的"
+      }
+    ]
+  },
+  "style": "v2",
+  "sitemapLocation": "sitemap.json",
+  "useExtendedLib": {
+    "weui": true
+  }
+}

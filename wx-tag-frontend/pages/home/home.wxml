@@ -1,0 +1,110 @@
+<!--home.wxml-->
+<view class="container">
+  <!-- 用户信息 -->
+  <view class="user-info">
+    <button class="avatar-wrapper" open-type="chooseAvatar" bindchooseavatar="onChooseAvatar">
+      <image class="avatar" src="{{userInfo.avatarUrl || '/images/empty.png'}}" mode="aspectFill"></image>
+    </button>
+    <view class="user-info-text">
+      <input type="nickname" class="nickname-input" placeholder="请输入昵称" value="{{userInfo.nickName}}" bindchange="onNicknameChange"/>
+      <text class="tag-count-text">已收到 {{totalTagCount}} 个标签</text>
+    </view>
+  </view>
+
+  <!-- 邀请按钮 -->
+  <view class="button-row">
+    <button class="invite-button" bindtap="createInvitation">
+      邀请朋友给我打标签
+    </button>
+
+    <!-- 根据hasTaggedForMySelf状态显示不同按钮 -->
+    <button wx:if="{{!hasTaggedForMySelf}}" class="self-tag-button" bindtap="createSelfTagInvitation">
+      给自己打个标签
+    </button>
+    <button wx:else class="self-tag-button" bindtap="navigateToSelfTagDetail">
+      查看给自己打的标签
+    </button>
+  </view>
+
+  <!-- 功能卡片 -->
+  <view class="action-card">
+    <view class="action-item" bindtap="navigateToTaggedByMe">
+      <view class="action-icon" style="background-color: #FF9500;">他</view>
+      <view class="action-text">我给他人的标签</view>
+      <view class="action-arrow">></view>
+    </view>
+    <view class="action-item" bindtap="navigateToMyTags">
+      <view class="action-icon" style="background-color: #5856D6;">我</view>
+      <view class="action-text">别人给我的标签</view>
+      <view class="action-arrow">></view>
+    </view>
+  </view>
+
+  <!-- 标签预览卡片 -->
+  <view class="card">
+    <view class="card-header">
+      <text class="card-title">我的标签</text>
+    </view>
+    <!-- 有标签时显示标签 -->
+    <view class="tag-preview" wx:if="{{tagCounts.length > 0}}">
+      <view class="mini-tag" wx:for="{{tagCounts}}" wx:key="tagName" wx:if="{{index < 5}}">
+        {{item.tagName}} <text class="tag-count">{{item.count}}</text>
+      </view>
+    </view>
+    <!-- 没有标签时显示提示 -->
+    <view class="empty-tags-tip" wx:else>
+      <text class="empty-tip-text">您还没有收到标签，赶紧邀请好友给您打标签吧！</text>
+      <button class="empty-invite-btn" bindtap="createInvitation">立即邀请</button>
+    </view>
+  </view>
+
+  <!-- AI评语卡片 -->
+  <view class="card">
+    <view class="card-header">
+      <text class="card-title">AI评语</text>
+    </view>
+    
+    <!-- 已生成评语 -->
+    <view class="comment-box ai-comment" wx:if="{{aiComment}}">
+      <text class="comment-text">{{aiComment}}</text>
+    </view>
+    
+    <!-- 待生成评语 -->
+    <view class="comment-box task-ended" wx:else>
+      <view class="generate-content">
+        <!-- 评价人数不足提示 -->
+        <view class="insufficient-tips" wx:if="{{taggerCount < 3}}">
+          <text class="tips-text">当前评价人数不足3人（{{taggerCount}}/3），邀请更多朋友给您评价后再生成AI评语。</text>
+        </view>
+        <button class="generate-btn" bindtap="generateAIComment">生成AI评语</button>
+      </view>
+    </view>
+  </view>
+
+  <!-- 广告组件 -->
+  <view class="ad-container">
+    <ad unit-id="your-ad-unit-id" ad-type="video" ad-theme="white"></ad>
+  </view>
+</view>
+
+<!-- 分享弹窗 -->
+<view class="modal {{isClosing ? 'closing' : ''}}" wx:if="{{isShowShareModal}}">
+  <view class="modal-mask" bindtap="closeShareModal"></view>
+  <view class="modal-content">
+    <view class="modal-header">
+      <text class="modal-title">邀请好友</text>
+      <view class="close-icon" bindtap="closeShareModal">×</view>
+    </view>
+    <view class="modal-body">
+      <text class="share-tip">让好友来给你贴标签吧</text>
+      <view class="share-buttons">
+        <button class="share-btn" open-type="share">
+          <view class="wechat-circle">
+            <text class="btn-text">分享</text>
+          </view>
+          <text class="btn-label">微信好友</text>
+        </button>
+      </view>
+    </view>
+  </view>
+</view>

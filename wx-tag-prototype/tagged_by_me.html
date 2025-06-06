@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>微标签 - 我给他人的标签</title>
+    <link rel="stylesheet" href="css/weui.min.css">
+    <style>
+        .page-header {
+            padding: 15px;
+            text-align: center;
+            font-size: 18px;
+            font-weight: bold;
+            background-color: #fff;
+            border-bottom: 1px solid rgba(0,0,0,0.1);
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            z-index: 100;
+        }
+        .back-btn {
+            position: absolute;
+            left: 15px;
+            top: 15px;
+        }
+        .user-row {
+            display: flex;
+            align-items: center;
+            padding: 15px;
+            background-color: #fff;
+            border-bottom: 1px solid rgba(0,0,0,0.05);
+        }
+        .user-avatar {
+            width: 50px;
+            height: 50px;
+            border-radius: 4px;
+            background-color: #f2f2f2;
+            margin-right: 15px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #999;
+        }
+        .user-info {
+            flex: 1;
+        }
+        .user-tags {
+            display: flex;
+            flex-wrap: wrap;
+            margin-top: 5px;
+        }
+        .mini-tag {
+            padding: 3px 8px;
+            background-color: #f2f2f2;
+            border-radius: 10px;
+            font-size: 12px;
+            margin-right: 5px;
+            margin-bottom: 5px;
+        }
+        .section-title {
+            padding: 15px;
+            font-size: 16px;
+            font-weight: bold;
+            background-color: #f8f8f8;
+        }
+        .empty-state {
+            padding: 40px 20px;
+            text-align: center;
+            color: #999;
+        }
+        .content-area {
+            margin-top: 49px;
+            margin-bottom: 50px;
+        }
+        .navbar {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            height: 50px;
+            background-color: #fff;
+            border-top: 1px solid rgba(0,0,0,0.1);
+            display: flex;
+        }
+        .navbar-item {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            font-size: 14px;
+            color: #999;
+        }
+        .navbar-item.active {
+            color: #07C160;
+        }
+    </style>
+</head>
+<body>
+    <div class="page">
+        <div class="page-header">
+            <span class="back-btn" onclick="navigateTo('home.html')">←</span>
+            我给他人的标签
+        </div>
+        
+        <div class="content-area">
+            <div class="section-title">我打过标签的好友</div>
+            
+            <!-- 好友列表 -->
+            <div class="user-row" onclick="navigateTo('friend_detail.html?friendId=小明')">
+                <div class="user-avatar">小</div>
+                <div class="user-info">
+                    <div style="font-size: 16px; font-weight: bold;">小明</div>
+                    <div class="user-tags">
+                        <div class="mini-tag">温柔</div>
+                        <div class="mini-tag">细心</div>
+                        <div class="mini-tag">有创意</div>
+                    </div>
+                </div>
+                <div style="color: #999;">></div>
+            </div>
+            
+            <div class="user-row" onclick="navigateTo('friend_detail.html?friendId=小红')">
+                <div class="user-avatar">红</div>
+                <div class="user-info">
+                    <div style="font-size: 16px; font-weight: bold;">小红</div>
+                    <div class="user-tags">
+                        <div class="mini-tag">美丽</div>
+                        <div class="mini-tag">善良</div>
+                        <div class="mini-tag">聪明</div>
+                    </div>
+                </div>
+                <div style="color: #999;">></div>
+            </div>
+            
+            <div class="user-row" onclick="navigateTo('friend_detail.html?friendId=小李')">
+                <div class="user-avatar">李</div>
+                <div class="user-info">
+                    <div style="font-size: 16px; font-weight: bold;">小李</div>
+                    <div class="user-tags">
+                        <div class="mini-tag">幽默</div>
+                        <div class="mini-tag">阳光</div>
+                    </div>
+                </div>
+                <div style="color: #999;">></div>
+            </div>
+        </div>
+        
+        <!-- 底部导航栏 -->
+        <div class="navbar">
+            <div class="navbar-item" onclick="navigateTo('home.html')">
+                <div>首页</div>
+            </div>
+            <div class="navbar-item" onclick="navigateTo('my_tags.html')">
+                <div>我的</div>
+            </div>
+        </div>
+    </div>
+    <script src="js/app.js"></script>
+</body>
+</html> 

@@ -1,0 +1,195 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>微标签 - 管理员</title>
+    <link rel="stylesheet" href="css/weui.min.css">
+    <style>
+        .page-header {
+            padding: 15px;
+            text-align: center;
+            font-size: 18px;
+            font-weight: bold;
+            background-color: #fff;
+            border-bottom: 1px solid rgba(0,0,0,0.1);
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            z-index: 100;
+        }
+        .back-btn {
+            position: absolute;
+            left: 15px;
+            top: 15px;
+        }
+        .admin-content {
+            margin-top: 49px;
+            padding: 15px;
+        }
+        .section-title {
+            font-size: 16px;
+            font-weight: bold;
+            margin-bottom: 15px;
+            padding-bottom: 10px;
+            border-bottom: 1px solid rgba(0,0,0,0.1);
+        }
+        .add-tag-form {
+            background-color: #fff;
+            padding: 15px;
+            border-radius: 8px;
+            margin-bottom: 20px;
+        }
+        .form-group {
+            margin-bottom: 15px;
+        }
+        .form-label {
+            display: block;
+            margin-bottom: 8px;
+            font-size: 14px;
+        }
+        .form-input {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            font-size: 16px;
+        }
+        .form-select {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            font-size: 16px;
+            background-color: #fff;
+        }
+        .tag-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 12px 15px;
+            background-color: #fff;
+            border-bottom: 1px solid rgba(0,0,0,0.05);
+        }
+        .tag-actions {
+            display: flex;
+            gap: 10px;
+        }
+        .edit-btn, .delete-btn {
+            padding: 5px 10px;
+            border-radius: 4px;
+            font-size: 12px;
+        }
+        .edit-btn {
+            background-color: #576b95;
+            color: white;
+        }
+        .delete-btn {
+            background-color: #fa5151;
+            color: white;
+        }
+        .tag-category {
+            display: inline-block;
+            padding: 2px 6px;
+            background-color: #f2f2f2;
+            border-radius: 4px;
+            font-size: 12px;
+            margin-left: 8px;
+        }
+    </style>
+</head>
+<body>
+    <div class="page">
+        <div class="page-header">
+            <span class="back-btn" onclick="navigateTo('home.html')">←</span>
+            标签管理
+        </div>
+        
+        <div class="admin-content">
+            <div class="add-tag-form">
+                <div class="section-title">添加新标签</div>
+                
+                <div class="form-group">
+                    <label class="form-label">标签名称</label>
+                    <input type="text" class="form-input" placeholder="请输入标签名称">
+                </div>
+                
+                <div class="form-group">
+                    <label class="form-label">标签类别</label>
+                    <select class="form-select">
+                        <option value="">请选择标签类别</option>
+                        <option value="性格特点">性格特点</option>
+                        <option value="能力特长">能力特长</option>
+                        <option value="外表气质">外表气质</option>
+                    </select>
+                </div>
+                
+                <button class="weui-btn weui-btn_primary" onclick="alert('添加成功')">添加标签</button>
+            </div>
+            
+            <div class="section-title">标签列表</div>
+            
+            <!-- 性格特点 -->
+            <div class="tag-item">
+                <div>温柔 <span class="tag-category">性格特点</span></div>
+                <div class="tag-actions">
+                    <button class="edit-btn" onclick="alert('编辑功能将在正式版实现')">编辑</button>
+                    <button class="delete-btn" onclick="alert('删除功能将在正式版实现')">删除</button>
+                </div>
+            </div>
+            
+            <div class="tag-item">
+                <div>善良 <span class="tag-category">性格特点</span></div>
+                <div class="tag-actions">
+                    <button class="edit-btn" onclick="alert('编辑功能将在正式版实现')">编辑</button>
+                    <button class="delete-btn" onclick="alert('删除功能将在正式版实现')">删除</button>
+                </div>
+            </div>
+            
+            <div class="tag-item">
+                <div>幽默 <span class="tag-category">性格特点</span></div>
+                <div class="tag-actions">
+                    <button class="edit-btn" onclick="alert('编辑功能将在正式版实现')">编辑</button>
+                    <button class="delete-btn" onclick="alert('删除功能将在正式版实现')">删除</button>
+                </div>
+            </div>
+            
+            <!-- 能力特长 -->
+            <div class="tag-item">
+                <div>聪明 <span class="tag-category">能力特长</span></div>
+                <div class="tag-actions">
+                    <button class="edit-btn" onclick="alert('编辑功能将在正式版实现')">编辑</button>
+                    <button class="delete-btn" onclick="alert('删除功能将在正式版实现')">删除</button>
+                </div>
+            </div>
+            
+            <div class="tag-item">
+                <div>有创意 <span class="tag-category">能力特长</span></div>
+                <div class="tag-actions">
+                    <button class="edit-btn" onclick="alert('编辑功能将在正式版实现')">编辑</button>
+                    <button class="delete-btn" onclick="alert('删除功能将在正式版实现')">删除</button>
+                </div>
+            </div>
+            
+            <!-- 外表气质 -->
+            <div class="tag-item">
+                <div>阳光 <span class="tag-category">外表气质</span></div>
+                <div class="tag-actions">
+                    <button class="edit-btn" onclick="alert('编辑功能将在正式版实现')">编辑</button>
+                    <button class="delete-btn" onclick="alert('删除功能将在正式版实现')">删除</button>
+                </div>
+            </div>
+            
+            <div class="tag-item">
+                <div>清新 <span class="tag-category">外表气质</span></div>
+                <div class="tag-actions">
+                    <button class="edit-btn" onclick="alert('编辑功能将在正式版实现')">编辑</button>
+                    <button class="delete-btn" onclick="alert('删除功能将在正式版实现')">删除</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script src="js/app.js"></script>
+</body>
+</html> 

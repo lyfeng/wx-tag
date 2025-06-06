@@ -1,0 +1,257 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>微标签 - 我的主页</title>
+    <link rel="stylesheet" href="css/weui.min.css">
+    <style>
+        .user-info {
+            padding: 20px;
+            background-color: #fff;
+            display: flex;
+            align-items: center;
+            margin-bottom: 15px;
+        }
+        .user-avatar {
+            width: 70px;
+            height: 70px;
+            border-radius: 8px;
+            background-color: #f2f2f2;
+            margin-right: 15px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 24px;
+            color: #999;
+        }
+        .action-card {
+            background-color: #fff;
+            border-radius: 8px;
+            margin-bottom: 15px;
+            overflow: hidden;
+        }
+        .action-item {
+            display: flex;
+            align-items: center;
+            padding: 20px;
+            position: relative;
+        }
+        .action-item:after {
+            content: '';
+            position: absolute;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            height: 1px;
+            background-color: rgba(0,0,0,0.1);
+            transform: scaleY(0.5);
+        }
+        .action-icon {
+            width: 30px;
+            height: 30px;
+            background-color: #07C160;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            margin-right: 15px;
+        }
+        .tag-preview {
+            display: flex;
+            flex-wrap: wrap;
+            padding: 15px;
+            background-color: #f8f8f8;
+        }
+        .mini-tag {
+            padding: 5px 10px;
+            background-color: #f2f2f2;
+            border-radius: 12px;
+            font-size: 12px;
+            margin-right: 8px;
+            margin-bottom: 8px;
+        }
+        .invite-btn {
+            display: block;
+            width: 90%;
+            margin: 20px auto;
+            background-color: #07C160;
+            color: white;
+            text-align: center;
+            padding: 12px 0;
+            border-radius: 4px;
+            font-weight: bold;
+        }
+        .action-section {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 20px;
+        }
+        .action-btn {
+            display: flex;
+            align-items: center;
+            padding: 10px;
+            background-color: #fff;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+        .btn-icon {
+            width: 20px;
+            height: 20px;
+            margin-right: 10px;
+        }
+        /* AI评语相关样式 */
+        .comment-box {
+            padding: 15px;
+            font-size: 14px;
+            line-height: 1.6;
+            color: #333;
+        }
+        .card {
+            background-color: #fff;
+            border-radius: 8px;
+            margin-bottom: 15px;
+            overflow: hidden;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+        }
+        .navbar {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            height: 50px;
+            background-color: #fff;
+            border-top: 1px solid rgba(0,0,0,0.1);
+            display: flex;
+        }
+        .navbar-item {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            font-size: 14px;
+            color: #999;
+        }
+        .navbar-item.active {
+            color: #07C160;
+        }
+    </style>
+</head>
+<body>
+    <div class="page">
+        <div class="container">
+            <!-- 用户信息 -->
+            <div class="user-info">
+                <div class="user-avatar">头像</div>
+                <div>
+                    <div style="font-size: 18px; font-weight: bold;">微信用户</div>
+                    <div style="font-size: 14px; color: #999; margin-top: 5px;">已收到 8 个标签</div>
+                </div>
+            </div>
+            
+            <!-- 邀请按钮 -->
+            <div class="invite-btn" onclick="shareToFriends()">
+                邀请朋友给我打标签
+            </div>
+            
+            <!-- 操作卡片 -->
+            <div class="action-card">
+                
+                <!-- 新增：我给他人的标签 -->
+                <div class="action-item" onclick="navigateTo('tagged_by_me.html')">
+                    <div class="action-icon" style="background-color: #FF9500;">他</div>
+                    <div class="weui-cell__bd">查看我给他人的标签</div>
+                    <div class="weui-cell__ft">></div>
+                </div>
+                
+                <!-- 新增：我的邀请任务 -->
+                <div class="action-item" onclick="navigateTo('invite_tasks.html')">
+                    <div class="action-icon" style="background-color: #5856D6;">任</div>
+                    <div class="weui-cell__bd">我的邀请任务</div>
+                    <div class="weui-cell__ft">></div>
+                </div>
+            </div>
+            
+            <!-- 标签预览 -->
+            <div class="card">
+                <div style="padding: 15px; border-bottom: 1px solid rgba(0,0,0,0.1);">
+                    <div style="font-weight: bold;">我的标签</div>
+                </div>
+                <div class="tag-preview">
+                    <div class="mini-tag">温柔 <span class="tag-count">5</span></div>
+                    <div class="mini-tag">善良 <span class="tag-count">4</span></div>
+                    <div class="mini-tag">细心 <span class="tag-count">3</span></div>
+                    <div class="mini-tag">幽默 <span class="tag-count">2</span></div>
+                    <div class="mini-tag">勇敢 <span class="tag-count">1</span></div>
+                </div>
+            </div>
+            
+            <!-- AI评语 -->
+            <div class="card">
+                <div style="padding: 15px; border-bottom: 1px solid rgba(0,0,0,0.1);">
+                    <div style="font-weight: bold;">AI评语</div>
+                </div>
+                <!-- 根据任务状态展示不同内容 -->
+                <div id="ai-comment-container">
+                    <!-- 状态1: 任务未结束，显示倒计时 -->
+                    <div class="comment-box task-countdown" id="task-countdown" style="display: block;">
+                        <div style="text-align: center; padding: 15px;">
+                            <div style="margin-bottom: 10px;">标签收集中，距离结束还有</div>
+                            <div style="font-size: 20px; font-weight: bold; color: #07C160;">
+                                <span id="countdown-timer">23小时45分钟</span>
+                            </div>
+                            <div style="margin-top: 10px; font-size: 12px; color: #999;">
+                                任务结束后将自动生成AI评语
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- 状态2: 任务已结束但未生成评语，显示按钮 -->
+                    <div class="comment-box task-ended" id="generate-comment" style="display: none;">
+                        <div style="text-align: center; padding: 15px;">
+                            <div style="margin-bottom: 15px;">标签收集已结束</div>
+                            <button class="weui-btn weui-btn_primary" style="background-color: #07C160;" onclick="generateAIComment()">
+                                生成AI评语
+                            </button>
+                        </div>
+                    </div>
+                    
+                    <!-- 状态3: 已生成评语，显示内容 -->
+                    <div class="comment-box ai-comment" id="ai-comment" style="display: none;">
+                        在朋友眼中，你是一个温柔善良的人，对他人细心体贴。你的幽默感让人愉快，同时也展现出勇敢面对挑战的一面。继续保持这些优秀的品质，你的魅力会感染更多人！
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- 底部导航栏 -->
+        <div class="navbar">
+            <div class="navbar-item active">
+                <div>首页</div>
+            </div>
+            <div class="navbar-item" onclick="navigateTo('my_tags.html')">
+                <div>我的</div>
+            </div>
+        </div>
+        
+        <!-- 测试控制面板（仅在原型中使用） -->
+        <div style="padding: 20px; background-color: #f8f8f8; margin-top: 20px; border-top: 1px solid #eee;">
+            <h3 style="margin-bottom: 10px; font-size: 14px;">原型测试控制（实际产品中不显示）</h3>
+            <div style="display: flex; justify-content: space-between; margin-bottom: 10px;">
+                <button onclick="testAICommentMode('collecting')" style="padding: 8px; background-color: #f2f2f2; border: none; border-radius: 4px;">
+                    显示倒计时状态
+                </button>
+                <button onclick="testAICommentMode('ended')" style="padding: 8px; background-color: #f2f2f2; border: none; border-radius: 4px;">
+                    显示生成按钮状态
+                </button>
+                <button onclick="testAICommentMode('commented')" style="padding: 8px; background-color: #f2f2f2; border: none; border-radius: 4px;">
+                    显示评语状态
+                </button>
+            </div>
+        </div>
+    </div>
+    <script src="js/app.js"></script>
+</body>
+</html> 

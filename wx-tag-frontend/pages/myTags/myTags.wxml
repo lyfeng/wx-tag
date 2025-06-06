@@ -1,0 +1,71 @@
+<!--pages/myTags/myTags.wxml-->
+<view class="container">
+  <!-- 返回首页按钮 -->
+  <view class="home-button" bindtap="goHome">
+    <text class="home-icon">🏠</text>
+  </view>
+
+  <!-- 加载中 -->
+  <view class="loading" wx:if="{{loading}}">
+    <view class="weui-loading"></view>
+  </view>
+
+  <!-- 用户个人信息 -->
+  <view class="user-profile" wx:if="{{!loading}}">
+    <image class="large-avatar" src="{{userInfo.avatarUrl || '/images/empty.png'}}" mode="aspectFill" binderror="onUserAvatarError"></image>
+    <view class="user-name">{{userInfo.nickname || '微信用户'}}</view>
+    <view class="tag-stats">
+      <view class="stats-text">已收到 {{tagData.tagCount || 0}} 个标签，共有 {{tagData.tagUserCount || 0}} 人为你打标签</view>
+    </view>
+    <button class="share-btn" open-type="share">邀请更多好友打标签</button>
+  </view>
+
+  <!-- 标签排行榜 -->
+  <view class="ranking-section" wx:if="{{!loading && tagStats.length > 0}}">
+    <view class="section-title">我的标签</view>
+    <view class="tag-cloud">
+      <view class="tag-cloud-item" wx:for="{{tagStats}}" wx:key="tagName">
+        <text class="tag-cloud-name">{{item.tagName}}</text>
+        <text class="tag-cloud-count">{{item.count}}</text>
+      </view>
+    </view>
+  </view>
+
+  <!-- AI分析评语 -->
+  <view class="ai-section" wx:if="{{!loading && tagData.aiContent}}">
+    <view class="section-title">AI分析评语</view>
+    <view class="ai-content">
+      <view class="comment-box">
+        {{tagData.aiContent}}
+      </view>
+    </view>
+  </view>
+
+  <!-- 标签明细 -->
+  <view class="detail-section" wx:if="{{!loading && tagData.userTagSummaryList.length > 0}}">
+    <view class="section-title">标签明细</view>
+    <view class="detail-list">
+      <view class="detail-item" wx:for="{{tagData.userTagSummaryList}}" wx:key="userTagSummaryUuid">
+        <view class="detail-left">
+          <image class="tagger-avatar" src="{{item.taggerAvatarUrl || '/images/empty.png'}}" mode="aspectFill" binderror="onTaggerAvatarError" data-index="{{index}}"></image>
+          <view class="tagger-info">
+            <view class="tagger-name">{{item.taggerNickname}}</view>
+            <view class="tag-time">{{item.formattedTime}}</view>
+          </view>
+        </view>
+        <view class="detail-right">
+          <view class="tags-container">
+            <view class="tag-pill" wx:for="{{item.formattedTags}}" wx:for-item="tag" wx:key="name">{{tag.name}}</view>
+          </view>
+        </view>
+      </view>
+    </view>
+  </view>
+
+  <!-- 空状态 -->
+  <view class="empty-state" wx:if="{{!loading && (!tagData.userTagSummaryList || tagData.userTagSummaryList.length === 0)}}">
+    <text class="empty-text-icon">📝</text>
+    <text class="empty-text">还没有收到任何标签哦~</text>
+    <button class="share-btn" open-type="share">邀请好友贴标签</button>
+  </view>
+</view>

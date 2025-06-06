@@ -1,0 +1,32 @@
+<!--index.wxml-->
+<view class="container">
+  
+  
+  <view class="logo-container">
+    <text class="title">微标签</text>
+    <text class="subtitle">为朋友打标签，了解朋友眼中的你</text>
+  </view>
+  
+  <view class="login-container">
+    <button class="login-btn" bindtap="startLogin" loading="{{isLoading}}">
+      微信一键登录
+    </button>
+    
+    <!-- 用户协议和隐私政策同意选项 -->
+    <view class="agreement-container">
+      <view class="checkbox-container" bindtap="toggleAgreement">
+        <view class="checkbox {{agreedToTerms ? 'checked' : ''}}">
+          <text wx:if="{{agreedToTerms}}" class="checkmark">✓</text>
+        </view>
+        <text class="agreement-text">我已阅读并同意《用户协议》和《隐私政策》</text>
+      </view>
+      <view class="action-buttons">
+        <button class="cancel-btn" bindtap="goToLanding">取消</button>
+      </view>
+    </view>
+  </view>
+  
+  <view class="footer">
+    <!-- 移除原来的文本，因为现在有了明确的同意选项 -->
+  </view>
+</view>

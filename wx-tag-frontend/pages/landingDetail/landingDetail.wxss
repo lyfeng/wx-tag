@@ -1,0 +1,241 @@
+.container {
+  min-height: 100vh;
+  background-color: #f8f8f8;
+  padding-bottom: 140rpx;
+}
+
+.page-header {
+  padding: 30rpx;
+  text-align: center;
+  font-size: 32rpx;
+  font-weight: bold;
+  background-color: #fff;
+  border-bottom: 1px solid rgba(0,0,0,0.1);
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 100;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+}
+
+.home-button {
+  position: absolute;
+  left: 30rpx;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 60rpx;
+  height: 60rpx;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 30rpx;
+  background-color: rgba(0,0,0,0.05);
+}
+
+.home-icon {
+  font-size: 32rpx;
+  line-height: 1;
+}
+
+.header-title {
+  flex: 1;
+}
+
+/* 加载中 */
+.loading-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  margin-top: 200rpx;
+  color: #999;
+  font-size: 28rpx;
+}
+
+.loading {
+  width: 40rpx;
+  height: 40rpx;
+  border: 4rpx solid #f3f3f3;
+  border-top: 4rpx solid #4095E5;
+  border-radius: 50%;
+  animation: spin 1s linear infinite;
+  margin-bottom: 20rpx;
+}
+
+@keyframes spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+
+/* 用户资料 */
+.user-profile {
+  margin-top: 16rpx;
+  padding: 32rpx 24rpx 24rpx 24rpx;
+  background-color: #fff;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  border-bottom: 1px solid rgba(0,0,0,0.05);
+}
+
+.large-avatar {
+  width: 120rpx;
+  height: 120rpx;
+  border-radius: 60rpx;
+  background: linear-gradient(45deg, #4095E5, #5ba3f5);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 48rpx;
+  color: white;
+  margin-bottom: 18rpx;
+}
+
+.user-name {
+  font-size: 32rpx;
+  font-weight: bold;
+  margin-bottom: 10rpx;
+  color: #333;
+}
+
+.tag-stats {
+  margin-top: 8rpx;
+  text-align: center;
+}
+
+.stats-text {
+  font-size: 24rpx;
+  color: #999;
+  display: block;
+  margin-bottom: 4rpx;
+}
+
+.tag-count {
+  color: #4095E5;
+  font-weight: 600;
+}
+
+/* 标签列表 */
+.section-title {
+  font-size: 32rpx;
+  font-weight: bold;
+  color: #333;
+  padding: 40rpx 30rpx 20rpx;
+  background-color: #f8f8f8;
+}
+
+.tag-list {
+  padding: 0 30rpx 30rpx;
+  background-color: #fff;
+  margin-bottom: 20rpx;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 16rpx;
+}
+
+.tag-item-bubble {
+  background-color: #4095E5;
+  color: white;
+  padding: 12rpx 20rpx;
+  border-radius: 25rpx;
+  font-size: 26rpx;
+  font-weight: 500;
+  display: inline-block;
+}
+
+.bubble-name {
+  margin-right: 8rpx;
+}
+
+.bubble-count {
+  background-color: rgba(255, 255, 255, 0.2);
+  padding: 2rpx 8rpx;
+  border-radius: 10rpx;
+  font-size: 20rpx;
+}
+
+.empty-tags {
+  text-align: center;
+  color: #999;
+  font-size: 28rpx;
+  padding: 40rpx 0;
+}
+
+/* AI分析评语 */
+.comment-box {
+  background-color: #fff;
+  padding: 30rpx;
+  margin-bottom: 20rpx;
+  border-radius: 16rpx;
+  margin: 0 20rpx 20rpx;
+}
+
+.comment-text {
+  font-size: 28rpx;
+  color: #666;
+  line-height: 1.6;
+}
+
+/* 开始标签按钮 */
+.action-container {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  padding: 20rpx 30rpx 40rpx;
+  background-color: #fff;
+  border-top: 1rpx solid rgba(0, 0, 0, 0.1);
+  box-shadow: 0 -4rpx 20rpx rgba(0, 0, 0, 0.1);
+}
+
+.start-button {
+  width: 100%;
+  height: 100rpx;
+  background-color: #07C160;
+  color: white;
+  border-radius: 50rpx;
+  border: none;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 4rpx 16rpx rgba(7, 193, 96, 0.3);
+  position: relative;
+  overflow: hidden;
+}
+
+.start-button::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+  transition: left 0.5s;
+}
+
+.start-button:active::before {
+  left: 100%;
+}
+
+.start-button:active {
+  transform: translateY(2rpx);
+  box-shadow: 0 2rpx 12rpx rgba(7, 193, 96, 0.3);
+}
+
+.button-text {
+  font-size: 30rpx;
+  font-weight: 600;
+  margin-bottom: 4rpx;
+}
+
+.button-subtitle {
+  font-size: 22rpx;
+  opacity: 0.9;
+  font-weight: 300;
+}

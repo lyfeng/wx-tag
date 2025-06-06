@@ -1,0 +1,251 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>微标签 - 邀请任务</title>
+    <link rel="stylesheet" href="css/weui.min.css">
+    <style>
+        .page-header {
+            padding: 15px;
+            text-align: center;
+            font-size: 18px;
+            font-weight: bold;
+            background-color: #fff;
+            border-bottom: 1px solid rgba(0,0,0,0.1);
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            z-index: 100;
+        }
+        .back-btn {
+            position: absolute;
+            left: 15px;
+            top: 15px;
+        }
+        .content-area {
+            margin-top: 49px;
+            margin-bottom: 50px;
+        }
+        .section-title {
+            padding: 15px;
+            font-size: 16px;
+            font-weight: bold;
+            background-color: #f8f8f8;
+        }
+        .task-card {
+            margin: 15px;
+            background-color: #fff;
+            border-radius: 8px;
+            overflow: hidden;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+        }
+        .task-header {
+            padding: 15px;
+            border-bottom: 1px solid rgba(0,0,0,0.05);
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+        .task-title {
+            font-weight: bold;
+        }
+        .task-status {
+            font-size: 14px;
+        }
+        .status-active {
+            color: #07C160;
+        }
+        .status-completed {
+            color: #999;
+        }
+        .status-expired {
+            color: #FF525D;
+        }
+        .task-body {
+            padding: 15px;
+        }
+        .task-detail {
+            margin-bottom: 10px;
+            display: flex;
+            justify-content: space-between;
+        }
+        .task-detail-label {
+            color: #999;
+        }
+        .progress-bar {
+            height: 6px;
+            background-color: #f2f2f2;
+            border-radius: 3px;
+            margin: 15px 0;
+            overflow: hidden;
+        }
+        .progress-fill {
+            height: 100%;
+            background-color: #07C160;
+            border-radius: 3px;
+        }
+        .task-footer {
+            padding: 15px;
+            border-top: 1px solid rgba(0,0,0,0.05);
+            display: flex;
+            justify-content: space-between;
+        }
+        .task-action {
+            padding: 5px 15px;
+            border-radius: 15px;
+            background-color: #f2f2f2;
+            font-size: 14px;
+        }
+        .action-primary {
+            background-color: #07C160;
+            color: white;
+        }
+        .invite-list {
+            margin-top: 10px;
+        }
+        .invite-item {
+            display: flex;
+            align-items: center;
+            padding: 10px 0;
+            border-bottom: 1px solid rgba(0,0,0,0.05);
+        }
+        .invite-avatar {
+            width: 40px;
+            height: 40px;
+            border-radius: 4px;
+            background-color: #f2f2f2;
+            margin-right: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #999;
+        }
+        .invite-info {
+            flex: 1;
+        }
+        .invite-name {
+            font-weight: bold;
+        }
+        .invite-status {
+            font-size: 12px;
+            color: #999;
+            margin-top: 2px;
+        }
+        .navbar {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            height: 50px;
+            background-color: #fff;
+            border-top: 1px solid rgba(0,0,0,0.1);
+            display: flex;
+        }
+        .navbar-item {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            font-size: 14px;
+            color: #999;
+        }
+        .navbar-item.active {
+            color: #07C160;
+        }
+    </style>
+</head>
+<body>
+    <div class="page">
+        <div class="page-header">
+            <span class="back-btn" onclick="navigateTo('home.html')">←</span>
+            我的邀请任务
+        </div>
+        
+        <div class="content-area">
+            <div class="section-title">进行中的任务</div>
+            
+            <!-- 任务卡片1：进行中 -->
+            <div class="task-card">
+                <div class="task-header">
+                    <div class="task-title">标签收集任务 #1</div>
+                    <div class="task-status status-active">进行中</div>
+                </div>
+                <div class="task-body">
+                    <div class="task-detail">
+                        <div class="task-detail-label">发起时间</div>
+                        <div>2023-05-10 10:30</div>
+                    </div>
+                    <div class="task-detail">
+                        <div class="task-detail-label">剩余时间</div>
+                        <div>23小时45分钟</div>
+                    </div>
+                    <div class="task-detail">
+                        <div class="task-detail-label">已收集</div>
+                        <div>5 人已参与</div>
+                    </div>
+                    <div class="task-detail">
+                        <div class="task-detail-label">任务进度</div>
+                        <div>已完成1天/共3天</div>
+                    </div>
+                    <div class="progress-bar">
+                        <div class="progress-fill" style="width: 33%;"></div>
+                    </div>
+                </div>
+                <div class="task-footer">
+                    <div class="task-action" onclick="shareToFriends()">继续邀请</div>
+                    <div class="task-action action-primary" onclick="navigateTo('tag_selection.html')">查看标签</div>
+                </div>
+            </div>
+            
+            <div class="section-title">已完成的任务</div>
+            
+            <!-- 任务卡片2：已完成 -->
+            <div class="task-card">
+                <div class="task-header">
+                    <div class="task-title">标签收集任务 #0</div>
+                    <div class="task-status status-completed">已完成</div>
+                </div>
+                <div class="task-body">
+                    <div class="task-detail">
+                        <div class="task-detail-label">发起时间</div>
+                        <div>2023-04-15 14:20</div>
+                    </div>
+                    <div class="task-detail">
+                        <div class="task-detail-label">完成时间</div>
+                        <div>2023-04-18 14:20</div>
+                    </div>
+                    <div class="task-detail">
+                        <div class="task-detail-label">参与人数</div>
+                        <div>8 人</div>
+                    </div>
+                    <div class="task-detail">
+                        <div class="task-detail-label">任务时长</div>
+                        <div>3天</div>
+                    </div>
+                    <div class="progress-bar">
+                        <div class="progress-fill" style="width: 100%;"></div>
+                    </div>
+                </div>
+                <div class="task-footer">
+                    <div class="task-action" onclick="alert('AI评语已生成')">AI评语已生成</div>
+                    <div class="task-action action-primary" onclick="navigateTo('my_tags.html')">查看结果</div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- 底部导航栏 -->
+        <div class="navbar">
+            <div class="navbar-item" onclick="navigateTo('home.html')">
+                <div>首页</div>
+            </div>
+            <div class="navbar-item" onclick="navigateTo('my_tags.html')">
+                <div>我的</div>
+            </div>
+        </div>
+    </div>
+    <script src="js/app.js"></script>
+</body>
+</html> 

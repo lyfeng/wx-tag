@@ -1,0 +1,114 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.wxtag.mapper.UserTagMapper">
+
+    <resultMap id="UserTagDetailResultMap" type="com.wxtag.entity.UserTagDetail">
+        <id column="id" property="id" jdbcType="BIGINT"/>
+        <result column="user_tag_summary_uuid" property="userTagSummaryUuid" jdbcType="VARCHAR"/>
+        <result column="openid" property="openid" jdbcType="VARCHAR"/>
+        <result column="tagger_openid" property="taggerOpenid" jdbcType="VARCHAR"/>
+        <result column="tag_uuid" property="tagUuid" jdbcType="VARCHAR"/>
+        <result column="tag_name" property="tagName" jdbcType="VARCHAR"/>
+        <result column="invitation_uuid" property="invitationUuid" jdbcType="VARCHAR"/>
+        <result column="created_at" property="createdAt" jdbcType="TIMESTAMP"/>
+        <result column="updated_at" property="updatedAt" jdbcType="TIMESTAMP"/>
+    </resultMap>
+
+    <resultMap id="UserTagSummaryResultMap" type="com.wxtag.entity.UserTagSummary">
+        <id column="id" property="id" jdbcType="BIGINT"/>
+        <result column="user_tag_summary_uuid" property="userTagSummaryUuid" jdbcType="VARCHAR"/>
+        <result column="openid" property="openid" jdbcType="VARCHAR"/>
+        <result column="nickname" property="nickname" jdbcType="VARCHAR"/>
+        <result column="avatar_url" property="avatarUrl" jdbcType="VARCHAR"/>
+        <result column="tagger_openid" property="taggerOpenid" jdbcType="VARCHAR"/>
+        <result column="tagger_nickname" property="taggerNickname" jdbcType="VARCHAR"/>
+        <result column="tagger_avatar_url" property="taggerAvatarUrl" jdbcType="VARCHAR"/>
+        <result column="invitation_uuid" property="invitationUuid" jdbcType="VARCHAR"/>
+        <result column="tag_summary" property="tagSummary" jdbcType="VARCHAR"/>
+        <result column="created_at" property="createdAt" jdbcType="TIMESTAMP"/>
+        <result column="updated_at" property="updatedAt" jdbcType="TIMESTAMP"/>
+    </resultMap>
+
+    <insert id="insertDetail" parameterType="com.wxtag.entity.UserTagDetail" useGeneratedKeys="true" keyProperty="id">
+        INSERT INTO user_tag_detail (
+            user_tag_summary_uuid, openid, tagger_openid, tag_uuid, tag_name, invitation_uuid, created_at, updated_at
+        ) VALUES (
+            #{userTagSummaryUuid}, #{openid}, #{taggerOpenid}, #{tagUuid}, #{tagName}, #{invitationUuid}, #{createdAt}, #{updatedAt}
+        )
+    </insert>
+
+    <insert id="insertSummary" parameterType="com.wxtag.entity.UserTagSummary" useGeneratedKeys="true" keyProperty="id">
+        INSERT INTO user_tag_summary (
+            user_tag_summary_uuid, openid, nickname, avatar_url, tagger_openid, tagger_nickname, tagger_avatar_url, invitation_uuid, tag_summary, created_at, updated_at
+        ) VALUES (
+            #{userTagSummaryUuid}, #{openid}, #{nickname}, #{avatarUrl}, #{taggerOpenid}, #{taggerNickname}, #{taggerAvatarUrl}, #{invitationUuid}, #{tagSummary}, #{createdAt}, #{updatedAt}
+        )
+    </insert>
+
+    <select id="selectGivenTagsByOpenid" resultMap="UserTagSummaryResultMap">
+        SELECT id, user_tag_summary_uuid, openid, nickname, avatar_url, 
+               tagger_openid, tagger_nickname, tagger_avatar_url, invitation_uuid, tag_summary, 
+               created_at, updated_at
+        FROM user_tag_summary
+        WHERE tagger_openid = #{taggerOpenid}
+        ORDER BY created_at DESC
+    </select>
+
+    <select id="selectReceivedTagsByOpenid" resultMap="UserTagSummaryResultMap">
+        SELECT id, user_tag_summary_uuid, openid, nickname, avatar_url, 
+               tagger_openid, tagger_nickname, tagger_avatar_url, invitation_uuid, tag_summary, 
+               created_at, updated_at
+        FROM user_tag_summary
+        WHERE openid = #{openid}
+        ORDER BY created_at DESC
+    </select>
+
+    <select id="selectTagsByInvitationId" resultMap="UserTagSummaryResultMap">
+        SELECT id, user_tag_summary_uuid, openid, nickname, avatar_url, 
+               tagger_openid, tagger_nickname, tagger_avatar_url, invitation_uuid, tag_summary, 
+               created_at, updated_at
+        FROM user_tag_summary
+        WHERE invitation_uuid = #{invitationUuid}
+        ORDER BY created_at DESC
+    </select>
+
+    <select id="countTagsByOpenid" resultType="map">
+        SELECT d.tag_name, COUNT(*) as tag_count
+        FROM user_tag_detail d
+        WHERE d.openid = #{openid}
+        GROUP BY d.tag_name
+        ORDER BY tag_count DESC
+    </select>
+
+    <select id="countTotalTagsByOpenid" resultType="integer">
+        SELECT COUNT(DISTINCT tag_name)
+        FROM user_tag_detail
+        WHERE openid = #{openid}
+    </select>
+
+    <select id="countTaggersByOpenid" resultType="integer">
+        SELECT COUNT(DISTINCT tagger_openid)
+        FROM user_tag_summary
+        WHERE openid = #{openid}
+    </select>
+
+    <select id="selectTagsByTaggerAndOpenid" resultType="string">
+        SELECT DISTINCT d.tag_name
+        FROM user_tag_detail d
+        WHERE d.tagger_openid = #{taggerOpenid} AND d.openid = #{openid}
+        ORDER BY d.tag_name
+    </select>
+
+    <select id="countTagsByTaggerAndInvitation" resultType="integer">
+        SELECT COUNT(*)
+        FROM user_tag_summary
+        WHERE tagger_openid = #{taggerOpenid} AND invitation_uuid = #{invitationCode}
+    </select>
+
+    <select id="countSelfTags" resultType="integer">
+        SELECT COUNT(*)
+        FROM user_tag_summary
+        WHERE tagger_openid = #{openid} AND openid = #{openid}
+    </select>
+
+</mapper> 

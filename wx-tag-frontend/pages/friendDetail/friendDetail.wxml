@@ -1,0 +1,63 @@
+<!--pages/friendDetail/friendDetail.wxml-->
+<view class="container">
+  <view class="page-header">
+    <view class="home-button" bindtap="goHome">
+      <text class="home-icon">🏠</text>
+    </view>
+    <text class="header-title">好友标签详情</text>
+  </view>
+
+  <!-- 加载中 -->
+  <view class="loading-container" wx:if="{{loading}}">
+    <view class="loading"></view>
+    <text>加载中...</text>
+  </view>
+
+  <block wx:else>
+    <!-- 用户资料 -->
+    <view class="user-profile">
+      <image class="large-avatar" 
+             src="{{friendInfo.avatarUrl || '/images/empty.png'}}" 
+             mode="aspectFill"
+             binderror="onAvatarError"></image>
+      <text class="user-name">{{friendInfo.nickname || '未知用户'}}</text>
+      <view class="tag-stats">
+        <text class="stats-text">总共获得 <text class="tag-count">{{allTags.length || 0}}</text> 种标签</text>
+        <text class="stats-text">总共有 <text class="tag-count">{{totalPeople || 0}}</text> 人给Ta打标签</text>
+      </view>
+    </view>
+
+    <!-- 我的标签 -->
+    <view class="section-title">你给Ta的标签</view>
+    <view class="tag-list">
+      <block wx:if="{{myTags && myTags.length > 0}}">
+        <view class="tag-item-bubble" wx:for="{{myTags}}" wx:key="{{item.id || item.tagName || index}}">
+          <text class="bubble-name">{{item.tagName || item}}</text>
+        </view>
+      </block>
+      <view class="empty-tags" wx:else>
+        <text>你还没有给Ta贴过标签</text>
+      </view>
+    </view>
+
+    <!-- 标签总览 -->
+    <view class="section-title">Ta的标签总览</view>
+    <view class="tag-list">
+      <block wx:if="{{allTags && allTags.length > 0}}">
+        <view class="tag-item-bubble" wx:for="{{allTags}}" wx:key="index">
+          <text class="bubble-name">{{item.tagName}}</text>
+          <text class="bubble-count">{{item.tagCount}}</text>
+        </view>
+      </block>
+      <view class="empty-tags" wx:else>
+        <text>Ta还没有收到任何标签</text>
+      </view>
+    </view>
+
+    <!-- AI分析 -->
+    <view class="section-title">AI分析评语</view>
+    <view class="comment-box">
+      <text class="comment-text">{{aiComment || '暂无AI分析评语'}}</text>
+    </view>
+  </block>
+</view>

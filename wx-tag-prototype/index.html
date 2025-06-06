@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>微标签 - 登录</title>
+    <link rel="stylesheet" href="css/weui.min.css">
+    <style>
+        .logo {
+            width: 120px;
+            height: 120px;
+            margin-bottom: 30px;
+        }
+        .login-container {
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+        }
+        .app-title {
+            font-size: 24px;
+            font-weight: bold;
+            margin-bottom: 10px;
+        }
+        .app-desc {
+            font-size: 16px;
+            color: rgba(0,0,0,0.5);
+            text-align: center;
+            margin-bottom: 40px;
+        }
+        .wx-btn {
+            background-color: #07C160;
+            color: white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        .wx-icon {
+            width: 20px;
+            height: 20px;
+            margin-right: 8px;
+        }
+    </style>
+</head>
+<body>
+    <div class="page">
+        <div class="login-container">
+            <div class="logo">
+                <!-- 这里放置应用logo，使用背景色替代 -->
+                <div style="width: 120px; height: 120px; background-color: #07C160; border-radius: 20px; display: flex; align-items: center; justify-content: center; color: white; font-size: 24px;">微标签</div>
+            </div>
+            <div class="app-title">微标签</div>
+            <div class="app-desc">匿名为朋友打标签，了解朋友眼中的你</div>
+            
+            <div style="width: 80%;">
+                <button class="weui-btn wx-btn" onclick="wxLogin()">
+                    <span class="wx-icon">
+                        <!-- 微信图标，使用简单的文字替代 -->
+                        <span style="font-size: 20px;">微</span>
+                    </span>
+                    微信一键登录
+                </button>
+            </div>
+        </div>
+    </div>
+    <script src="js/app.js"></script>
+</body>
+</html> 

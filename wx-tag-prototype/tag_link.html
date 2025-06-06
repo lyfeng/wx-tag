@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>微标签 - 标签链接</title>
+    <link rel="stylesheet" href="css/weui.min.css">
+    <style>
+        .loading-container {
+            height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            flex-direction: column;
+        }
+        .loading-text {
+            margin-top: 20px;
+            font-size: 16px;
+            color: #888;
+        }
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+        .spinner {
+            border: 4px solid #f3f3f3;
+            border-top: 4px solid #07C160;
+            border-radius: 50%;
+            width: 40px;
+            height: 40px;
+            animation: spin 1s linear infinite;
+        }
+    </style>
+</head>
+<body>
+    <div class="page">
+        <div class="loading-container">
+            <div class="spinner"></div>
+            <div class="loading-text">加载中...</div>
+        </div>
+    </div>
+    
+    <script src="js/app.js"></script>
+    <script>
+        // 解析URL参数
+        function getQueryParam(name) {
+            const urlParams = new URLSearchParams(window.location.search);
+            return urlParams.get(name);
+        }
+        
+        // 检查并跳转
+        window.onload = function() {
+            // 获取好友ID参数
+            const friendId = getQueryParam('friendId') || '小明';  // 默认为小明，方便测试
+            
+            // 检查是否已经给这个好友打过标签
+            if (checkIfAlreadyTagged(friendId)) {
+                // 如果已经打过标签，跳转到已打标签页面
+                setTimeout(function() {
+                    window.location.href = 'tagged_already.html?friendId=' + friendId;
+                }, 1000);
+            } else {
+                // 如果没有打过标签，跳转到打标签页面
+                setTimeout(function() {
+                    window.location.href = 'tag_for_friend.html?friendId=' + friendId;
+                }, 1000);
+            }
+        };
+    </script>
+</body>
+</html> 

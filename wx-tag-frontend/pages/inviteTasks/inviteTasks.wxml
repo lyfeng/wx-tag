@@ -1,0 +1,120 @@
+<!--pages/inviteTasks/inviteTasks.wxml-->
+<view class="container">
+  <view class="page-header">
+    <view class="home-button" bindtap="goHome">
+      <text class="home-icon">🏠</text>
+    </view>
+    <text class="header-title">我的邀请任务</text>
+  </view>
+
+  <!-- 加载中 -->
+  <view class="loading-container" wx:if="{{loading}}">
+    <view class="loading"></view>
+    <text>加载中...</text>
+  </view>
+
+  <view class="content-area" wx:else>
+    <!-- 进行中的任务 -->
+    <block wx:if="{{activeTasks.length > 0}}">
+      <view class="section-title">进行中的任务</view>
+      <view class="task-card" wx:for="{{activeTasks}}" wx:key="taskId">
+        <view class="task-header">
+          <text class="task-title">标签收集任务 #{{item.taskNumber}}</text>
+          <text class="task-status status-active">进行中</text>
+        </view>
+        <view class="task-body">
+          <view class="task-detail">
+            <text class="task-detail-label">发起时间</text>
+            <text>{{item.startTime}}</text>
+          </view>
+          <view class="task-detail">
+            <text class="task-detail-label">剩余时间</text>
+            <text>{{item.remainingTime}}</text>
+          </view>
+          <view class="task-detail">
+            <text class="task-detail-label">已收集</text>
+            <text>{{item.participantCount}} 人已参与</text>
+          </view>
+          <view class="task-detail">
+            <text class="task-detail-label">任务进度</text>
+            <text>已完成{{item.completedDays}}天/共{{item.totalDays}}天</text>
+          </view>
+          <view class="progress-bar">
+            <view class="progress-fill" style="width: {{item.progress}}%;"></view>
+          </view>
+        </view>
+        <view class="task-footer">
+          <view class="task-action" bindtap="continueInvite" data-task-id="{{item.taskId}}">继续邀请</view>
+          <view class="task-action action-primary" bindtap="viewTags" data-task-id="{{item.taskId}}">查看标签</view>
+        </view>
+      </view>
+    </block>
+
+    <!-- 已完成的任务 -->
+    <block wx:if="{{completedTasks.length > 0}}">
+      <view class="section-title">已完成的任务</view>
+      <view class="task-card" wx:for="{{completedTasks}}" wx:key="taskId">
+        <view class="task-header">
+          <text class="task-title">标签收集任务 #{{item.taskNumber}}</text>
+          <text class="task-status status-completed">已完成</text>
+        </view>
+        <view class="task-body">
+          <view class="task-detail">
+            <text class="task-detail-label">发起时间</text>
+            <text>{{item.startTime}}</text>
+          </view>
+          <view class="task-detail">
+            <text class="task-detail-label">完成时间</text>
+            <text>{{item.endTime}}</text>
+          </view>
+          <view class="task-detail">
+            <text class="task-detail-label">参与人数</text>
+            <text>{{item.participantCount}} 人</text>
+          </view>
+          <view class="task-detail">
+            <text class="task-detail-label">任务时长</text>
+            <text>{{item.totalDays}}天</text>
+          </view>
+          <view class="progress-bar">
+            <view class="progress-fill" style="width: 100%;"></view>
+          </view>
+        </view>
+        <view class="task-footer">
+          <view class="task-action">AI评语已生成</view>
+          <view class="task-action action-primary" bindtap="viewResult" data-task-id="{{item.taskId}}">查看结果</view>
+        </view>
+      </view>
+    </block>
+
+    <!-- 空状态 -->
+    <view class="empty-state" wx:if="{{!loading && activeTasks.length === 0 && completedTasks.length === 0}}">
+      <image src="/images/empty_task.png" mode="aspectFit" class="empty-image"></image>
+      <text class="empty-text">还没有创建过邀请任务</text>
+      <button class="create-task-btn" bindtap="createNewTask">创建新任务</button>
+    </view>
+  </view>
+
+  <!-- 分享弹窗 -->
+  <view class="modal" wx:if="{{isShowShareModal}}">
+    <view class="modal-mask" bindtap="closeShareModal"></view>
+    <view class="modal-content">
+      <view class="modal-header">
+        <text class="modal-title">邀请好友给你贴标签</text>
+        <image class="close-icon" src="/images/close.png" mode="aspectFit" bindtap="closeShareModal"></image>
+      </view>
+      <view class="modal-body">
+        <text class="share-tip">选择以下方式分享给好友</text>
+        <view class="share-buttons">
+          <button class="share-btn" open-type="share">
+            <image src="/images/wechat_share.png" mode="aspectFit"></image>
+            <text>微信好友</text>
+          </button>
+          <button class="share-btn" bindtap="copyInviteLink">
+            <image src="/images/copy_link.png" mode="aspectFit"></image>
+            <text>复制链接</text>
+          </button>
+        </view>
+      </view>
+    </view>
+  </view>
+</view>

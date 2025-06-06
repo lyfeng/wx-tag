@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.wxtag.mapper.TagMapper">
+
+    <resultMap id="BaseResultMap" type="com.wxtag.entity.Tag">
+        <id column="id" property="id" jdbcType="BIGINT"/>
+        <result column="tag_uuid" property="tagUuid" jdbcType="VARCHAR"/>
+        <result column="tag_name" property="tagName" jdbcType="VARCHAR"/>
+        <result column="description" property="description" jdbcType="VARCHAR"/>
+        <result column="category" property="category" jdbcType="VARCHAR"/>
+        <result column="sort_order" property="sortOrder" jdbcType="INTEGER"/>
+        <result column="created_at" property="createdAt" jdbcType="TIMESTAMP"/>
+        <result column="updated_at" property="updatedAt" jdbcType="TIMESTAMP"/>
+    </resultMap>
+
+    <sql id="Base_Column_List">
+        id, tag_uuid, tag_name, description, category, sort_order, created_at, updated_at
+    </sql>
+
+    <select id="selectAll" resultMap="BaseResultMap">
+        SELECT <include refid="Base_Column_List"/>
+        FROM tag
+        ORDER BY category, sort_order, tag_name
+    </select>
+
+    <select id="selectByCategory" resultMap="BaseResultMap">
+        SELECT <include refid="Base_Column_List"/>
+        FROM tag
+        WHERE category = #{category}
+        ORDER BY sort_order, tag_name
+    </select>
+
+    <select id="selectByName" resultMap="BaseResultMap">
+        SELECT <include refid="Base_Column_List"/>
+        FROM tag
+        WHERE tag_name = #{tagName}
+    </select>
+
+    <insert id="insert" parameterType="com.wxtag.entity.Tag" useGeneratedKeys="true" keyProperty="id">
+        INSERT INTO tag (
+            tag_uuid, tag_name, description, category, sort_order, created_at, updated_at
+        ) VALUES (
+            #{tagUuid}, #{tagName}, #{description}, #{category}, #{sortOrder}, #{createdAt}, #{updatedAt}
+        )
+    </insert>
+
+</mapper> 

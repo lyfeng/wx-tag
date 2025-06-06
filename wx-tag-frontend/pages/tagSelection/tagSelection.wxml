@@ -1,0 +1,73 @@
+<!--tagSelection.wxml-->
+<view class="container">
+  <!-- 标题 -->
+  <view class="header">
+    <view class="home-button" bindtap="goHome">
+      <text class="home-icon">🏠</text>
+    </view>
+    <view class="header-content">
+      <text class="title">请选择标签（最多{{maxTags}}个）</text>
+      <text class="selected-count">已选择 {{selectedTags.length}}/{{maxTags}}</text>
+    </view>
+    <view class="share-button" bindtap="onCustomShare">
+      <text class="share-icon">📤</text>
+    </view>
+  </view>
+
+  <!-- 被评价用户信息 -->
+  <view class="target-user-info" wx:if="{{targetUserInfo}}">
+    <image class="target-avatar" src="{{targetUserInfo.avatarUrl}}" mode="aspectFill"></image>
+    <text class="target-name">正在给 {{targetUserInfo.nickname}} 打标签</text>
+  </view>
+
+  <!-- 加载中 -->
+  <view class="loading-container" wx:if="{{loading}}">
+    <view class="loading"></view>
+    <text>加载中...</text>
+  </view>
+
+  <!-- 标签内容 -->
+  <view class="content" wx:else>
+    <!-- 类别选择器 -->
+    <scroll-view class="category-scroll" scroll-x>
+      <view class="category-list">
+        <view 
+          class="category-item {{activeCategory === category ? 'active' : ''}}" 
+          wx:for="{{categories}}" 
+          wx:key="*this"
+          wx:for-item="category"
+          bindtap="switchCategory"
+          data-category="{{category}}">
+          {{category}}
+        </view>
+      </view>
+    </scroll-view>
+
+    <!-- 标签列表 -->
+    <scroll-view class="tag-scroll" scroll-y>
+      <view class="tag-list">
+        <view 
+          class="tag-item {{item.selected ? 'selected' : ''}}" 
+          style="{{item.selected ? 'background-color: ' + item.color : ''}}"
+          wx:for="{{tags[activeCategory]}}" 
+          wx:key="id"
+          bindtap="toggleTag"
+          data-id="{{item.id}}"
+          data-name="{{item.name}}"
+          data-category="{{activeCategory}}">
+          {{item.name}}
+        </view>
+      </view>
+    </scroll-view>
+  </view>
+
+  <!-- 底部按钮 -->
+  <view class="bottom-button-container">
+    <button class="submit-button" bindtap="submitTags" disabled="{{selectedTags.length === 0}}">
+      提交标签
+    </button>
+    <button class="share-more-button" open-type="share">
+      分享给更多朋友
+    </button>
+  </view>
+</view> 

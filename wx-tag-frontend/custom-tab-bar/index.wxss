@@ -1,0 +1,50 @@
+.tab-bar {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  height: 48px;
+  background: white;
+  display: flex;
+  padding-bottom: env(safe-area-inset-bottom);
+  border-top: 1rpx solid rgba(0, 0, 0, 0.1);
+}
+
+.tab-bar-item {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 2px;
+}
+
+.tab-icon {
+  width: 20px;
+  height: 20px;
+  color: #999999;
+}
+
+.active .tab-icon {
+  color: #4095E5;
+}
+
+.tab-bar-text {
+  font-size: 16px;
+  line-height: 1.2;
+  color: #999999;
+}
+
+.active .tab-bar-text {
+  color: #4095E5;
+}
+
+.tab-icon-home {
+  background: url("data:image/svg+xml,%3Csvg width='20' height='20' viewBox='0 0 48 48' fill='none' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M9 18V42H39V18L24 6L9 18Z' fill='none' stroke='currentColor' stroke-width='4' stroke-linejoin='round'/%3E%3Cpath d='M19 29V42H29V29H19Z' fill='none' stroke='currentColor' stroke-width='4' stroke-linejoin='round'/%3E%3Cpath d='M9 42H39' stroke='currentColor' stroke-width='4' stroke-linecap='round'/%3E%3C/svg%3E") no-repeat center;
+  background-size: contain;
+}
+
+.tab-icon-user {
+  background: url("data:image/svg+xml,%3Csvg width='20' height='20' viewBox='0 0 48 48' fill='none' xmlns='http://www.w3.org/2000/svg'%3E%3Ccircle cx='24' cy='12' r='8' fill='none' stroke='currentColor' stroke-width='4' stroke-linecap='round' stroke-linejoin='round'/%3E%3Cpath d='M42 44C42 34.0589 33.9411 26 24 26C14.0589 26 6 34.0589 6 44' stroke='currentColor' stroke-width='4' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E") no-repeat center;
+  background-size: contain;
+} 

@@ -1,0 +1,10 @@
+<view class="tab-bar">
+  <view class="tab-bar-item {{selected === 0 ? 'active' : ''}}" bindtap="switchTab" data-index="0" data-path="/pages/home/home">
+    <view class="tab-icon tab-icon-home"></view>
+    <view class="tab-bar-text">首页</view>
+  </view>
+  <view class="tab-bar-item {{selected === 1 ? 'active' : ''}}" bindtap="switchTab" data-index="1" data-path="/pages/myTags/myTags">
+    <view class="tab-icon tab-icon-user"></view>
+    <view class="tab-bar-text">我的</view>
+  </view>
+</view> 

@@ -1,0 +1,204 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>微标签 - 给好友打标签</title>
+    <link rel="stylesheet" href="css/weui.min.css">
+    <style>
+        .page-header {
+            padding: 15px;
+            text-align: center;
+            font-size: 18px;
+            font-weight: bold;
+            background-color: #fff;
+            border-bottom: 1px solid rgba(0,0,0,0.1);
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            z-index: 100;
+        }
+        .friend-info {
+            margin-top: 49px;
+            padding: 20px;
+            background-color: #fff;
+            display: flex;
+            align-items: center;
+            border-bottom: 1px solid rgba(0,0,0,0.05);
+        }
+        .friend-avatar {
+            width: 60px;
+            height: 60px;
+            border-radius: 4px;
+            background-color: #f2f2f2;
+            margin-right: 15px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #999;
+        }
+        .tag-section {
+            padding: 15px;
+        }
+        .section-title {
+            font-size: 16px;
+            font-weight: bold;
+            margin-bottom: 15px;
+        }
+        .bottom-bar {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            padding: 15px;
+            background-color: #fff;
+            border-top: 1px solid rgba(0,0,0,0.1);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        .selected-count {
+            font-size: 14px;
+            color: #999;
+        }
+        .tag {
+            display: inline-block;
+            padding: 8px 15px;
+            background-color: #f2f2f2;
+            border-radius: 18px;
+            margin-right: 10px;
+            margin-bottom: 10px;
+            font-size: 14px;
+        }
+        .tag-selected {
+            background-color: #07C160;
+            color: white;
+        }
+        .tag-container {
+            display: flex;
+            flex-wrap: wrap;
+            margin-bottom: 20px;
+        }
+    </style>
+</head>
+<body>
+    <div class="page">
+        <div class="page-header">
+            给好友打标签
+        </div>
+        
+        <div class="friend-info">
+            <div class="friend-avatar">小</div>
+            <div>
+                <div style="font-size: 18px; font-weight: bold;" id="friend-name">小明</div>
+                <div style="font-size: 14px; color: #999; margin-top: 5px;">为TA选择合适的标签（最多5个）</div>
+            </div>
+        </div>
+        
+        <div class="tag-section">
+            <div class="section-title">性格特点</div>
+            <div class="tag-container">
+                <span class="tag" onclick="toggleTag(this)">温柔</span>
+                <span class="tag" onclick="toggleTag(this)">善良</span>
+                <span class="tag" onclick="toggleTag(this)">细心</span>
+                <span class="tag" onclick="toggleTag(this)">幽默</span>
+                <span class="tag" onclick="toggleTag(this)">勇敢</span>
+                <span class="tag" onclick="toggleTag(this)">正直</span>
+                <span class="tag" onclick="toggleTag(this)">忠诚</span>
+                <span class="tag" onclick="toggleTag(this)">有爱心</span>
+                <span class="tag" onclick="toggleTag(this)">善解人意</span>
+            </div>
+        </div>
+        
+        <div class="tag-section">
+            <div class="section-title">能力特长</div>
+            <div class="tag-container">
+                <span class="tag" onclick="toggleTag(this)">聪明</span>
+                <span class="tag" onclick="toggleTag(this)">有创意</span>
+                <span class="tag" onclick="toggleTag(this)">思维敏捷</span>
+                <span class="tag" onclick="toggleTag(this)">领导力强</span>
+                <span class="tag" onclick="toggleTag(this)">有责任感</span>
+                <span class="tag" onclick="toggleTag(this)">专注</span>
+                <span class="tag" onclick="toggleTag(this)">执行力强</span>
+                <span class="tag" onclick="toggleTag(this)">表达能力好</span>
+            </div>
+        </div>
+        
+        <div class="tag-section">
+            <div class="section-title">外表气质</div>
+            <div class="tag-container">
+                <span class="tag" onclick="toggleTag(this)">阳光</span>
+                <span class="tag" onclick="toggleTag(this)">帅气</span>
+                <span class="tag" onclick="toggleTag(this)">美丽</span>
+                <span class="tag" onclick="toggleTag(this)">时尚</span>
+                <span class="tag" onclick="toggleTag(this)">气质佳</span>
+                <span class="tag" onclick="toggleTag(this)">有魅力</span>
+                <span class="tag" onclick="toggleTag(this)">精致</span>
+                <span class="tag" onclick="toggleTag(this)">清新</span>
+            </div>
+        </div>
+        
+        <div style="height: 80px;"></div>
+        
+        <div class="bottom-bar">
+            <div class="selected-count">已选择 <span id="selected-count">0</span>/5 个标签</div>
+            <button class="weui-btn weui-btn_mini weui-btn_primary" onclick="submitTagsAndSave()">确定</button>
+        </div>
+    </div>
+    
+    <script src="js/app.js"></script>
+    <script>
+        // 解析URL参数
+        function getQueryParam(name) {
+            const urlParams = new URLSearchParams(window.location.search);
+            return urlParams.get(name);
+        }
+        
+        // 设置好友名称
+        window.onload = function() {
+            const friendId = getQueryParam('friendId') || '小明';
+            document.getElementById('friend-name').textContent = friendId;
+        };
+    
+        // 更新选中标签数量
+        function updateSelectedCount() {
+            const count = document.querySelectorAll('.tag-selected').length;
+            document.getElementById('selected-count').textContent = count;
+        }
+        
+        // 重写toggleTag函数以更新计数
+        function toggleTag(element) {
+            const selectedTags = document.querySelectorAll('.tag-selected').length;
+            
+            if ((!element.classList.contains('tag-selected') && selectedTags < 5) || element.classList.contains('tag-selected')) {
+                element.classList.toggle('tag-selected');
+                updateSelectedCount();
+            } else if (!element.classList.contains('tag-selected') && selectedTags >= 5) {
+                alert('最多只能选择5个标签');
+            }
+        }
+        
+        // 提交标签并保存
+        function submitTagsAndSave() {
+            const selectedElements = document.querySelectorAll('.tag-selected');
+            if (selectedElements.length === 0) {
+                alert('请至少选择一个标签');
+                return;
+            }
+            
+            // 获取选中的标签文本
+            const selectedTags = Array.from(selectedElements).map(el => el.textContent.trim());
+            
+            // 获取好友ID
+            const friendId = getQueryParam('friendId') || '小明';
+            
+            // 保存标签
+            saveTagsForFriend(friendId, selectedTags);
+            
+            alert('标签提交成功！');
+            navigateTo('tag_success.html');
+        }
+    </script>
+</body>
+</html> 

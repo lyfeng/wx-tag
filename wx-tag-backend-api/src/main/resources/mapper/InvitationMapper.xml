@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.wxtag.mapper.InvitationMapper">
+
+    <resultMap id="BaseResultMap" type="com.wxtag.entity.Invitation">
+        <id column="id" property="id" jdbcType="BIGINT"/>
+        <result column="invitation_uuid" property="invitationUuid" jdbcType="VARCHAR"/>
+        <result column="openid" property="openid" jdbcType="VARCHAR"/>
+        <result column="nickname" property="nickname" jdbcType="VARCHAR"/>
+        <result column="avatar_url" property="avatarUrl" jdbcType="VARCHAR"/>
+        <result column="invitation_code" property="invitationCode" jdbcType="VARCHAR"/>
+        <result column="status" property="status" jdbcType="INTEGER"/>
+        <result column="start_time" property="startTime" jdbcType="TIMESTAMP"/>
+        <result column="end_time" property="endTime" jdbcType="TIMESTAMP"/>
+        <result column="created_at" property="createdAt" jdbcType="TIMESTAMP"/>
+        <result column="updated_at" property="updatedAt" jdbcType="TIMESTAMP"/>
+    </resultMap>
+
+    <sql id="Base_Column_List">
+        id, invitation_uuid, openid, nickname, avatar_url, invitation_code, status, start_time, end_time, created_at, updated_at
+    </sql>
+
+    <select id="selectByOpenid" resultMap="BaseResultMap">
+        SELECT <include refid="Base_Column_List"/>
+        FROM invitation
+        WHERE openid = #{openid}
+        ORDER BY created_at DESC
+    </select>
+
+    <select id="selectByInvitationCode" resultMap="BaseResultMap">
+        SELECT <include refid="Base_Column_List"/>
+        FROM invitation
+        WHERE invitation_code = #{invitationCode}
+    </select>
+
+    <select id="selectById" resultMap="BaseResultMap">
+        SELECT <include refid="Base_Column_List"/>
+        FROM invitation
+        WHERE id = #{id}
+    </select>
+
+    <select id="selectActiveByOpenid" resultMap="BaseResultMap">
+        SELECT <include refid="Base_Column_List"/>
+        FROM invitation
+        WHERE openid = #{openid} AND status = 1
+        ORDER BY created_at DESC
+        LIMIT 1
+    </select>
+
+    <insert id="insert" parameterType="com.wxtag.entity.Invitation" useGeneratedKeys="true" keyProperty="id">
+        INSERT INTO invitation (
+            invitation_uuid, openid, nickname, avatar_url, invitation_code, status, start_time, end_time, created_at, updated_at
+        ) VALUES (
+            #{invitationUuid}, #{openid}, #{nickname}, #{avatarUrl}, #{invitationCode}, #{status}, #{startTime}, #{endTime}, #{createdAt}, #{updatedAt}
+        )
+    </insert>
+
+    <update id="updateById" parameterType="com.wxtag.entity.Invitation">
+        UPDATE invitation
+        SET invitation_uuid = #{invitationUuid},
+            openid = #{openid},
+            nickname = #{nickname},
+            avatar_url = #{avatarUrl},
+            invitation_code = #{invitationCode},
+            status = #{status},
+            start_time = #{startTime},
+            end_time = #{endTime},
+            updated_at = #{updatedAt}
+        WHERE id = #{id}
+    </update>
+
+    <delete id="deleteById">
+        DELETE FROM invitation WHERE id = #{id}
+    </delete>
+
+</mapper> 

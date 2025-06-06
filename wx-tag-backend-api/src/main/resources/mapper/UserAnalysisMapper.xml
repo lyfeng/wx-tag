@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.wxtag.mapper.UserAnalysisMapper">
+
+    <resultMap id="BaseResultMap" type="com.wxtag.entity.UserAnalysis">
+        <id column="id" property="id" jdbcType="BIGINT"/>
+        <result column="analysis_uuid" property="analysisUuid" jdbcType="VARCHAR"/>
+        <result column="open_id" property="openId" jdbcType="VARCHAR"/>
+        <result column="invitation_uuid" property="invitationUuid" jdbcType="VARCHAR"/>
+        <result column="analysis_content" property="analysisContent" jdbcType="LONGVARCHAR"/>
+        <result column="created_at" property="createdAt" jdbcType="TIMESTAMP"/>
+        <result column="updated_at" property="updatedAt" jdbcType="TIMESTAMP"/>
+    </resultMap>
+
+    <sql id="Base_Column_List">
+        id, analysis_uuid, open_id, invitation_uuid, analysis_content, created_at, updated_at
+    </sql>
+
+    <select id="selectByOpenIdAndInvitationUuid" resultMap="BaseResultMap">
+        SELECT <include refid="Base_Column_List"/>
+        FROM user_analysis
+        WHERE open_id = #{openId} AND invitation_uuid = #{invitationUuid}
+        ORDER BY created_at DESC
+        LIMIT 1
+    </select>
+
+    <select id="selectByInvitationUuid" resultMap="BaseResultMap">
+        SELECT <include refid="Base_Column_List"/>
+        FROM user_analysis
+        WHERE invitation_uuid = #{invitationUuid}
+        ORDER BY created_at DESC
+        LIMIT 1
+    </select>
+
+    <select id="selectLatestByOpenId" resultMap="BaseResultMap">
+        SELECT <include refid="Base_Column_List"/>
+        FROM user_analysis
+        WHERE open_id = #{openId}
+        ORDER BY created_at DESC
+        LIMIT 1
+    </select>
+    
+    <insert id="insert" parameterType="com.wxtag.entity.UserAnalysis" useGeneratedKeys="true" keyProperty="id">
+        INSERT INTO user_analysis(
+            analysis_uuid, open_id, invitation_uuid, analysis_content, created_at, updated_at
+        ) VALUES (
+            #{analysisUuid}, #{openId}, #{invitationUuid}, #{analysisContent}, #{createdAt}, #{updatedAt}
+        )
+    </insert>
+    
+    <update id="update" parameterType="com.wxtag.entity.UserAnalysis">
+        UPDATE user_analysis
+        SET analysis_content = #{analysisContent},
+            updated_at = #{updatedAt}
+        WHERE id = #{id}
+    </update>
+
+</mapper> 
