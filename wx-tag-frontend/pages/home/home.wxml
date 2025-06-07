@@ -75,8 +75,8 @@
     <view class="comment-box task-ended" wx:else>
       <view class="generate-content">
         <!-- 评价人数不足提示 -->
-        <view class="insufficient-tips" wx:if="{{taggerCount < 3}}">
-          <text class="tips-text">当前评价人数不足3人（{{taggerCount}}/3），邀请更多朋友给您评价后再生成AI评语。</text>
+        <view class="insufficient-tips" wx:if="{{taggerCount}} < {{minAiTaggerCount}}}}">
+          <text class="tips-text">当前评价人数不足{{minAiTaggerCount}}人（{{taggerCount}}/{{minAiTaggerCount}}），邀请更多朋友给您评价后再生成AI评语。</text>
         </view>
         <button class="generate-btn" bindtap="generateAIComment">生成AI评语</button>
       </view>

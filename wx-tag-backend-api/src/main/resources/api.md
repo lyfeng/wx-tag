@@ -330,6 +330,8 @@
   "message": "操作成功",
   "data": {
     "tagCount": 12,               // 朋友收到的总标签数
+    "nickName": 'helloworld',               // 朋友的昵称
+    "avatarUrl": 'xxx.png',               // 朋友的头像
     "tagUserCount": 4,            // 给朋友打标签的不同用户数量
     "tags": ["阳光开朗", "乐于助人", "幽默风趣"],  // 我给他打的标签列表
     "tagCountList": [             // 朋友的标签数量明细

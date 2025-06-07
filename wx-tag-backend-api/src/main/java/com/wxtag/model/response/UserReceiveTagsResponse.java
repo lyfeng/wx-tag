@@ -25,4 +25,13 @@ public class UserReceiveTagsResponse {
      */
     private String aiContent;
 
+    /**
+     * 朋友的昵称
+     */
+    private String nickName;
+    /**
+     * 朋友的头像
+     */
+    private String avatarUrl;
+
 }

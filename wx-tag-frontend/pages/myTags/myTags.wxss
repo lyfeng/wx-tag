@@ -1,5 +1,13 @@
 /* pages/myTags/myTags.wxss */
 
+/* 页面容器 */
+.page-container {
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+  background: #f8f8f8;
+}
+
 /* 返回首页按钮 */
 .home-button {
   position: fixed;
@@ -21,8 +29,10 @@
 }
 
 .container {
+  flex: 1;
   background: #f8f8f8;
-  min-height: 100vh;
+  padding-bottom: 120rpx; /* 为底部tabbar留出空间 */
+  box-sizing: border-box;
 }
 
 /* 加载中 */

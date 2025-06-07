@@ -65,8 +65,26 @@ Page({
   /**
    * 页面相关事件处理函数--监听用户下拉动作
    */
-  onPullDownRefresh() {
-    this.loadTagData();
+  async onPullDownRefresh() {
+    console.log('下拉刷新开始');
+    
+    try {
+      await this.loadTagData();
+      
+      wx.showToast({
+        title: '刷新成功',
+        icon: 'success',
+        duration: 1500
+      });
+    } catch (error) {
+      console.error('下拉刷新失败:', error);
+      wx.stopPullDownRefresh();
+      
+      wx.showToast({
+        title: '刷新失败',
+        icon: 'error'
+      });
+    }
   },
 
   /**

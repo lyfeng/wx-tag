@@ -48,6 +48,9 @@
 .tag-count-text {
   font-size: 28rpx;
   color: #666;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 
 /* 按钮行容器 */

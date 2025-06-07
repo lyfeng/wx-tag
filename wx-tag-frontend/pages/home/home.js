@@ -47,6 +47,13 @@ Page({
     if (!apiUtils.isLoggedIn()) {
       console.log('用户未登录，缺少token');
       
+      // 检查全局登录状态，可能token还在更新过程中
+      const app = getApp();
+      if (app.globalData.isLoggedIn) {
+        console.log('全局状态显示已登录，可能是时序问题，跳过提示');
+        return true;
+      }
+      
       wx.showModal({
         title: '登录提示',
         content: '检测到您尚未登录，需要先登录才能使用完整功能',
@@ -442,5 +449,34 @@ Page({
     
     // 更新到服务器
     app.updateUserInfo(userInfo);
+  },
+
+  // 下拉刷新
+  async onPullDownRefresh() {
+    console.log('下拉刷新开始');
+    
+    try {
+      // 重新获取用户信息和首页数据
+      await this.getUserInfo();
+      await this.getHomeData();
+      
+      // 停止下拉刷新动画
+      wx.stopPullDownRefresh();
+      
+      wx.showToast({
+        title: '刷新成功',
+        icon: 'success',
+        duration: 1500
+      });
+    } catch (error) {
+      // 停止下拉刷新动画
+      wx.stopPullDownRefresh();
+      
+      console.error('下拉刷新失败:', error);
+      wx.showToast({
+        title: '刷新失败',
+        icon: 'error'
+      });
+    }
   },
 });

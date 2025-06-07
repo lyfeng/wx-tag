@@ -1,0 +1,6 @@
+{
+  "navigationBarTitleText": "微标签",
+  "enablePullDownRefresh": true,
+  "onReachBottomDistance": 50,
+  "backgroundTextStyle": "dark"
+} 

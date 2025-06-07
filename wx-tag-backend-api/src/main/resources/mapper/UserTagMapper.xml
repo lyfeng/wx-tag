@@ -61,6 +61,7 @@
         FROM user_tag_summary
         WHERE openid = #{openid}
         ORDER BY created_at DESC
+        LIMIT 300
     </select>
 
     <select id="selectTagsByInvitationId" resultMap="UserTagSummaryResultMap">
@@ -70,6 +71,7 @@
         FROM user_tag_summary
         WHERE invitation_uuid = #{invitationUuid}
         ORDER BY created_at DESC
+        LIMIT 300
     </select>
 
     <select id="countTagsByOpenid" resultType="map">

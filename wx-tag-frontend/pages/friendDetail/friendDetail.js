@@ -177,8 +177,14 @@ Page({
       if (result.success) {
         const data = result.data;
         
-        // 保留现有的friendInfo，只更新标签相关数据
+        // 更新朋友信息，优先使用接口返回的最新信息
         const currentFriendInfo = this.data.friendInfo;
+        const updatedFriendInfo = {
+          ...currentFriendInfo,
+          // 优先使用接口返回的昵称和头像，如果接口没有返回则保持原有值
+          nickname: data.nickName || data.nickname || currentFriendInfo.nickname,
+          avatarUrl: data.avatarUrl || currentFriendInfo.avatarUrl
+        };
         
         // 我给Ta的标签
         const myTags = data.tags || [];
@@ -198,8 +204,10 @@ Page({
         // 给Ta打标签的人数
         const totalPeople = data.tagUserCount || 0;
         
+        console.log('更新朋友信息:', updatedFriendInfo);
+        
         this.setData({
-          friendInfo: currentFriendInfo, // 保持现有的用户信息
+          friendInfo: updatedFriendInfo, // 使用更新后的朋友信息
           myTags: myTags.map(tagName => ({ tagName })), // 转换为对象格式
           allTags,
           aiComment,

@@ -53,8 +53,15 @@ function handleAuthFailure() {
     showCancel: false,
     confirmText: '重新登录',
     success: () => {
+      // 获取当前页面路径，用于登录成功后返回
+      const pages = getCurrentPages();
+      const currentPage = pages[pages.length - 1];
+      const currentRoute = currentPage ? `/${currentPage.route}` : '';
+      
+      // 跳转到登录页面，并传递当前页面路径作为返回参数
+      const returnPage = encodeURIComponent(currentRoute);
       wx.reLaunch({
-        url: '/pages/index/index'
+        url: `/pages/index/index?returnPage=${returnPage}`
       });
     }
   });
@@ -120,12 +127,16 @@ function request(method, url, data = null, customConfig = {}) {
           if (res.data.code === 0 || res.data.code === 200) {
             resolve(res.data);
           } else if (res.data.code === 401) {
-            // token失效，清除登录状态
-            clearAuth();
+            // token失效，清除登录状态并跳转到登录页面
+            handleAuthFailure();
             reject(new Error('登录已过期'));
           } else {
             reject(new Error(`请求失败: ${res.data.msg || '未知错误'} (code: ${res.data.code})`));
           }
+        } else if (res.statusCode === 401) {
+          // HTTP 401状态码处理
+          handleAuthFailure();
+          reject(new Error(`HTTP错误：${res.statusCode}, 响应数据: ${JSON.stringify(res.data)}`));
         } else {
           reject(new Error(`HTTP错误：${res.statusCode}, 响应数据: ${JSON.stringify(res.data)}`));
         }
@@ -152,5 +163,6 @@ module.exports = {
     wx.removeStorageSync('token');
     wx.removeStorageSync('openid');
     wx.removeStorageSync('userInfo');
-  }
+  },
+  handleAuthFailure: handleAuthFailure
 }; 

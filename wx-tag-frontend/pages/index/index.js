@@ -4,10 +4,13 @@ Page({
   data: {
     isLoading: false,
     canIUseGetUserProfile: false,
-    agreedToTerms: false  // 新增：用户是否同意协议
+    agreedToTerms: false,  // 新增：用户是否同意协议
+    returnPage: '' // 新增：登录后返回的页面路径
   },
 
-  onLoad() {
+  onLoad(options) {
+    console.log('登录页面加载，参数：', options);
+    
     // 判断是否支持getUserProfile接口
     if (wx.getUserProfile) {
       this.setData({
@@ -15,20 +18,21 @@ Page({
       });
     }
     
-    // 如果已登录且用户信息完整，直接跳转到首页
-    const userInfo = wx.getStorageSync('userInfo');
-    if (app.globalData.isLoggedIn && userInfo && userInfo.avatarUrl && userInfo.nickName) {
-      wx.switchTab({
-        url: '/pages/home/home'
+    // 保存返回页面路径
+    if (options.returnPage) {
+      const returnPage = decodeURIComponent(options.returnPage);
+      console.log('解码前的returnPage:', options.returnPage);
+      console.log('解码后的returnPage:', returnPage);
+      this.setData({
+        returnPage: returnPage
       });
     }
-  },
-
-  // 切换协议同意状态
-  toggleAgreement() {
-    this.setData({
-      agreedToTerms: !this.data.agreedToTerms
-    });
+    
+    // 如果已登录且用户信息完整，直接跳转
+    const userInfo = wx.getStorageSync('userInfo');
+    if (app.globalData.isLoggedIn && userInfo && userInfo.avatarUrl && userInfo.nickName) {
+      this.handleLoginSuccess();
+    }
   },
 
   // 执行登录操作
@@ -40,26 +44,60 @@ Page({
     });
     
     app.login((success) => {
+      // 无论成功失败都要重置loading状态
       this.setData({
         isLoading: false
       });
       
-      // 登录成功后，检查用户信息是否完整
       if (success) {
         const userInfo = wx.getStorageSync('userInfo');
         if (!userInfo || !userInfo.avatarUrl || !userInfo.nickName) {
-          // 用户信息不完整，跳转到信息设置页面
+          // 用户信息不完整，跳转到信息设置页面，并传递返回页面参数
+          const returnPageParam = this.data.returnPage ? 
+            `?returnPage=${encodeURIComponent(this.data.returnPage)}` : '';
+          console.log('跳转到用户信息设置页面，参数:', returnPageParam);
           wx.redirectTo({
-            url: '/pages/userProfile/userProfile'
+            url: `/pages/userProfile/userProfile${returnPageParam}`
           });
         } else {
-          // 用户信息完整，跳转到首页
+          this.handleLoginSuccess();
+        }
+      }
+      // 登录失败的情况已经在app.login中处理了错误提示
+    });
+  },
+
+  // 处理登录成功后的跳转
+  handleLoginSuccess() {
+    console.log('处理登录成功跳转，返回页面：', this.data.returnPage);
+    
+    // 确保全局登录状态已更新
+    app.globalData.isLoggedIn = true;
+    
+    if (this.data.returnPage) {
+      // 如果有返回页面，则跳转到返回页面
+      console.log('即将跳转到返回页面:', this.data.returnPage);
+      wx.redirectTo({
+        url: this.data.returnPage,
+        success: () => {
+          console.log('跳转成功');
+        },
+        fail: (error) => {
+          console.error('跳转到返回页面失败：', error);
+          // 如果跳转失败，则跳转到首页
           wx.switchTab({
             url: '/pages/home/home'
           });
         }
-      }
-    });
+      });
+    } else {
+      // 否则跳转到首页，增加短暂延迟确保状态同步
+      setTimeout(() => {
+        wx.switchTab({
+          url: '/pages/home/home'
+        });
+      }, 50);
+    }
   },
 
   // 开始登录
@@ -92,6 +130,13 @@ Page({
   goToLanding() {
     wx.redirectTo({
       url: '/pages/landing/landing'
+    });
+  },
+
+  // 切换协议同意状态
+  toggleAgreement() {
+    this.setData({
+      agreedToTerms: !this.data.agreedToTerms
     });
   },
 

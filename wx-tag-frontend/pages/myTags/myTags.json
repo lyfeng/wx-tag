@@ -1,0 +1,6 @@
+{
+  "navigationBarTitleText": "别人给我的标签",
+  "enablePullDownRefresh": true,
+  "onReachBottomDistance": 50,
+  "backgroundTextStyle": "dark"
+} 

@@ -31,4 +31,77 @@
   text-align: center;
   font-size: 32rpx;
   color: #666;
+}
+
+/* 加载状态 */
+.loading-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 80rpx 0;
+}
+
+.loading {
+  width: 60rpx;
+  height: 60rpx;
+  border: 4rpx solid #f0f0f0;
+  border-top: 4rpx solid #07C160;
+  border-radius: 50%;
+  animation: loading-spin 1s linear infinite;
+  margin-bottom: 30rpx;
+}
+
+@keyframes loading-spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+
+.loading-text {
+  font-size: 28rpx;
+  color: #999;
+}
+
+/* 朋友信息 */
+.friend-info {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 60rpx 0;
+}
+
+.friend-avatar {
+  width: 120rpx;
+  height: 120rpx;
+  border-radius: 16rpx;
+  margin-bottom: 20rpx;
+}
+
+.friend-name {
+  font-size: 32rpx;
+  font-weight: bold;
+  color: #333;
+  margin-bottom: 30rpx;
+}
+
+/* 默认内容 */
+.default-content {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 80rpx 0;
+}
+
+.page-title {
+  font-size: 36rpx;
+  font-weight: bold;
+  color: #333;
+  margin-bottom: 20rpx;
+}
+
+.page-desc {
+  font-size: 28rpx;
+  color: #999;
 } 

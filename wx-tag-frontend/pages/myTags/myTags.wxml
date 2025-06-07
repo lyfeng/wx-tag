@@ -1,9 +1,11 @@
 <!--pages/myTags/myTags.wxml-->
-<view class="container">
+<view class="page-container">
   <!-- 返回首页按钮 -->
   <view class="home-button" bindtap="goHome">
     <text class="home-icon">🏠</text>
   </view>
+
+<scroll-view class="container" scroll-y="true" enable-back-to-top="true">
 
   <!-- 加载中 -->
   <view class="loading" wx:if="{{loading}}">
@@ -66,6 +68,6 @@
   <view class="empty-state" wx:if="{{!loading && (!tagData.userTagSummaryList || tagData.userTagSummaryList.length === 0)}}">
     <text class="empty-text-icon">📝</text>
     <text class="empty-text">还没有收到任何标签哦~</text>
-    <button class="share-btn" open-type="share">邀请好友贴标签</button>
   </view>
+</scroll-view>
 </view>

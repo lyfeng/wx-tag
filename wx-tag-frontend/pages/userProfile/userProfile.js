@@ -8,10 +8,22 @@ Page({
       avatarUrl: '',
       nickName: '',
       openId: ''
-    }
+    },
+    returnPage: '' // 新增：返回页面路径
   },
 
   onLoad(options) {
+    console.log('用户信息设置页面加载，参数：', options);
+    
+    // 保存返回页面路径
+    if (options.returnPage) {
+      const returnPage = decodeURIComponent(options.returnPage);
+      console.log('保存返回页面路径：', returnPage);
+      this.setData({
+        returnPage: returnPage
+      });
+    }
+
     // 获取传递过来的用户信息
     const openid = wx.getStorageSync('openid');
     const tempUserInfo = {
@@ -146,15 +158,30 @@ Page({
       wx.showToast({
         title: '设置成功',
         icon: 'success',
-        duration: 2000
+        duration: 1500
       });
 
-      // 延迟跳转到首页
+      // 延迟跳转
       setTimeout(() => {
-        wx.reLaunch({
-          url: '/pages/home/home'
-        });
-      }, 2000);
+        if (this.data.returnPage) {
+          // 如果有返回页面，则跳转到返回页面
+          wx.redirectTo({
+            url: this.data.returnPage,
+            fail: (error) => {
+              console.error('跳转到返回页面失败：', error);
+              // 如果跳转失败，则跳转到首页
+              wx.switchTab({
+                url: '/pages/home/home'
+              });
+            }
+          });
+        } else {
+          // 否则跳转到首页
+          wx.switchTab({
+            url: '/pages/home/home'
+          });
+        }
+      }, 1500);
     } catch (error) {
       wx.hideLoading();
       wx.showToast({

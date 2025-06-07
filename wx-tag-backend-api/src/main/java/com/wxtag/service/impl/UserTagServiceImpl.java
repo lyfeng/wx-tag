@@ -275,6 +275,12 @@ public class UserTagServiceImpl implements UserTagService {
     public UserTagHomeResponse getTagHomeData(String invitationCode,String openId) {
         logger.info("获取打标签页面数据, invitationCode: {}", invitationCode);
         
+        WxUser wxUser = wxUserMapper.selectByOpenId(openId);
+        if (wxUser == null) {
+            logger.error("获取打标签页面数据失败：openId为空:{}", openId);
+            return null;
+        }
+
         // 首先检查用户是否已经对这个邀请打过标签
         Integer tagCount = userTagMapper.countTagsByTaggerAndInvitation(openId, invitationCode);
 
@@ -285,9 +291,10 @@ public class UserTagServiceImpl implements UserTagService {
         }
         
         
+        
         UserTagHomeResponse response = new UserTagHomeResponse();
-        response.setNickname(invitation.getNickname());
-        response.setAvatarUrl(invitation.getAvatarUrl());
+        response.setNickname(wxUser.getNickName());
+        response.setAvatarUrl(wxUser.getAvatarUrl());
         response.setHasTagged(tagCount != null && tagCount > 0);
         response.setOpenid(invitation.getOpenid());
         
@@ -334,6 +341,11 @@ public class UserTagServiceImpl implements UserTagService {
         // 获取收到的标签总数
         Integer tagCount = userTagMapper.countTotalTagsByOpenid(openid);
         response.setTagCount(tagCount != null ? tagCount : 0);
+
+        // 获取朋友的昵称和头像
+        WxUser friend = wxUserMapper.selectByOpenId(openid);
+        response.setNickName(friend.getNickName());
+        response.setAvatarUrl(friend.getAvatarUrl());
         
         // 获取给该用户打标签的不同用户数量
         Integer tagUserCount = userTagMapper.countTaggersByOpenid(openid);
@@ -387,6 +399,11 @@ public class UserTagServiceImpl implements UserTagService {
         List<Map<String, Object>> tagCounts = userTagMapper.countTagsByOpenid(openid);
         List<TagCountDTO> tagCountDTOs = new ArrayList<>();
         
+        // 5. 获取朋友的昵称和头像
+        WxUser friend = wxUserMapper.selectByOpenId(openid);
+        response.setNickName(friend.getNickName());
+        response.setAvatarUrl(friend.getAvatarUrl());
+
         logger.info("朋友标签数量明细查询结果: friendOpenId={}, tagCounts={}", openid, tagCounts);
         
         for (Map<String, Object> tagCountMap : tagCounts) {
@@ -398,14 +415,18 @@ public class UserTagServiceImpl implements UserTagService {
         }
         response.setTagCountList(tagCountDTOs);
         
-        // 5. 获取AI评语
+        // 6. 获取AI评语
         String aiContent = null;
         try {
             UserAnalysis userAnalysis = userAnalysisMapper.selectLatestByOpenId(openid);
             // 如果openid和taggerOpenId不是同一个，则获取朋友的AI评语，则需要用第三人称
-            if (userAnalysis != null && userAnalysis.getAnalysisContent() != null && !openid.equals(taggerOpenId)) {
+            if (userAnalysis != null && userAnalysis.getAnalysisContent() != null) {
                 // 将第二人称"你"替换为第三人称"Ta"
-                aiContent = userAnalysis.getAnalysisContent().replace("你", "Ta");
+                if(!openid.equals(taggerOpenId)){
+                    aiContent = userAnalysis.getAnalysisContent().replace("你", "Ta");
+                }else{
+                    aiContent = userAnalysis.getAnalysisContent();
+                }
             }
             logger.info("获取朋友AI评语成功, friendOpenId: {}, 是否有评语: {}", openid, aiContent != null);
         } catch (Exception e) {

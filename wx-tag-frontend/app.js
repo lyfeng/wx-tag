@@ -30,13 +30,10 @@ App({
       // 检查用户信息是否完整
       if (userInfo && userInfo.avatarUrl && userInfo.nickName) {
         this.globalData.userInfo = userInfo;
-        console.log('用户信息完整，直接进入首页');
+        console.log('用户信息完整');
       } else {
-        console.log('用户信息不完整，需要补充信息');
-        // 跳转到用户信息设置页面
-        wx.redirectTo({
-          url: '/pages/userProfile/userProfile'
-        });
+        console.log('用户信息不完整');
+        this.globalData.userInfo = userInfo || {};
       }
     } else {
       console.log('用户未登录或登录信息不完整');
@@ -76,37 +73,43 @@ App({
               that.globalData.userInfo = userInfo;
               wx.setStorageSync('userInfo', userInfo);
               
-              // 检查用户信息完整性并跳转
-              if (!userInfo.avatarUrl || !userInfo.nickName) {
-                console.log('需要补充用户信息');
-                wx.redirectTo({
-                  url: `/pages/userProfile/userProfile?avatarUrl=${userInfo.avatarUrl || ''}&nickName=${userInfo.nickName || ''}`
-                });
-              } else {
-                console.log('用户信息完整，进入首页');
-                wx.reLaunch({
-                  url: '/pages/home/home'
-                });
-              }
-              
+              // 登录成功，通过回调通知页面处理后续逻辑
               if (callback) {
                 callback(true);
               }
             })
             .catch(error => {
               console.error('登录失败', error);
+              wx.showToast({
+                title: error.message || '登录失败',
+                icon: 'none',
+                duration: 2000
+              });
               if (callback) {
                 callback(false);
               }
             });
         } else {
+          console.error('wx.login 失败：未获取到 code');
           wx.showToast({
             title: '微信登录失败',
-            icon: 'none'
+            icon: 'none',
+            duration: 2000
           });
           if (callback) {
             callback(false);
           }
+        }
+      },
+      fail(error) {
+        console.error('wx.login 接口调用失败', error);
+        wx.showToast({
+          title: '微信登录失败',
+          icon: 'none',
+          duration: 2000
+        });
+        if (callback) {
+          callback(false);
         }
       }
     });

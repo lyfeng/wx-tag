@@ -8,6 +8,14 @@ import lombok.Data;
 @Data
 public class TagForFriendsResponse {
     /**
+     * 朋友的昵称
+     */
+    private String nickName;
+    /**
+     * 朋友的头像
+     */
+    private String avatarUrl;
+    /**
      * 他收到的标签总数
      */
     private Integer tagCount;
