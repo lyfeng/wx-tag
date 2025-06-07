@@ -15,8 +15,9 @@ Page({
       });
     }
     
-    // 如果已登录，直接跳转到首页
-    if (app.globalData.isLoggedIn) {
+    // 如果已登录且用户信息完整，直接跳转到首页
+    const userInfo = wx.getStorageSync('userInfo');
+    if (app.globalData.isLoggedIn && userInfo && userInfo.avatarUrl && userInfo.nickName) {
       wx.switchTab({
         url: '/pages/home/home'
       });
@@ -43,10 +44,20 @@ Page({
         isLoading: false
       });
       
+      // 登录成功后，检查用户信息是否完整
       if (success) {
-        wx.switchTab({
-          url: '/pages/home/home'
-        });
+        const userInfo = wx.getStorageSync('userInfo');
+        if (!userInfo || !userInfo.avatarUrl || !userInfo.nickName) {
+          // 用户信息不完整，跳转到信息设置页面
+          wx.redirectTo({
+            url: '/pages/userProfile/userProfile'
+          });
+        } else {
+          // 用户信息完整，跳转到首页
+          wx.switchTab({
+            url: '/pages/home/home'
+          });
+        }
       }
     });
   },
@@ -86,15 +97,10 @@ Page({
 
   // 获取用户信息并登录
   getUserProfile() {
-    console.log('getUserProfile called, isLoading:', this.data.isLoading);
-    console.log('agreedToTerms:', this.data.agreedToTerms);
-    
     if (this.data.isLoading) return;
     
     // 检查是否同意协议
     if (!this.data.agreedToTerms) {
-      console.log('显示协议确认弹窗');
-      // 弹出确认框
       wx.showModal({
         title: '用户协议确认',
         content: '登录前需要您同意《用户协议》和《隐私政策》，是否同意并继续登录？',
@@ -102,13 +108,11 @@ Page({
         cancelText: '取消',
         success: (res) => {
           if (res.confirm) {
-            // 用户确认同意，自动勾选协议并登录
             this.setData({
               agreedToTerms: true
             });
             this.performLogin();
           }
-          // 用户取消则不做任何操作
         }
       });
       return;
@@ -123,28 +127,23 @@ Page({
     
     // 检查是否同意协议
     if (!this.data.agreedToTerms) {
-      // 弹出确认框
       wx.showModal({
         title: '用户协议确认',
         content: '登录前需要您同意《用户协议》和《隐私政策》，是否同意并继续登录？',
-        confirmText: '同意', // 修改为4个字符以内
+        confirmText: '同意',
         cancelText: '取消',
         success: (res) => {
           if (res.confirm) {
-            // 用户确认同意，自动勾选协议并登录
             this.setData({
               agreedToTerms: true
             });
-            // 继续处理用户信息
             this.handleUserInfo(e);
           }
-          // 用户取消则不做任何操作
         }
       });
       return;
     }
     
-    // 已经同意协议，直接处理用户信息
     this.handleUserInfo(e);
   },
 

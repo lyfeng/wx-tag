@@ -23,14 +23,21 @@ App({
       hasUserInfo: !!userInfo
     });
     
-    // 主要检查token
+    // 检查token和用户信息完整性
     if (token) {
       this.globalData.isLoggedIn = true;
-      this.globalData.userInfo = userInfo || {
-        nickName: '微信用户',
-        avatarUrl: '/images/empty.png'
-      };
-      console.log('用户已登录');
+      
+      // 检查用户信息是否完整
+      if (userInfo && userInfo.avatarUrl && userInfo.nickName) {
+        this.globalData.userInfo = userInfo;
+        console.log('用户信息完整，直接进入首页');
+      } else {
+        console.log('用户信息不完整，需要补充信息');
+        // 跳转到用户信息设置页面
+        wx.redirectTo({
+          url: '/pages/userProfile/userProfile'
+        });
+      }
     } else {
       console.log('用户未登录或登录信息不完整');
       this.globalData.isLoggedIn = false;
@@ -59,15 +66,28 @@ App({
               // 更新全局数据
               that.globalData.isLoggedIn = true;
               
-              // 设置默认用户信息
-              const defaultUserInfo = {
-                nickName: '微信用户',
-                avatarUrl: '/images/empty.png',
+              // 设置用户信息
+              const userInfo = {
+                nickName: response.data.nickName || '',
+                avatarUrl: response.data.avatarUrl || '',
                 openId: response.data.openid
               };
               
-              that.globalData.userInfo = defaultUserInfo;
-              wx.setStorageSync('userInfo', defaultUserInfo);
+              that.globalData.userInfo = userInfo;
+              wx.setStorageSync('userInfo', userInfo);
+              
+              // 检查用户信息完整性并跳转
+              if (!userInfo.avatarUrl || !userInfo.nickName) {
+                console.log('需要补充用户信息');
+                wx.redirectTo({
+                  url: `/pages/userProfile/userProfile?avatarUrl=${userInfo.avatarUrl || ''}&nickName=${userInfo.nickName || ''}`
+                });
+              } else {
+                console.log('用户信息完整，进入首页');
+                wx.reLaunch({
+                  url: '/pages/home/home'
+                });
+              }
               
               if (callback) {
                 callback(true);
@@ -101,7 +121,7 @@ App({
     // 确保包含openid
     userInfo.openId = wx.getStorageSync('openid');
     
-    userApi.updateUser(userInfo)
+    return userApi.updateUser(userInfo)
       .then(response => {
         console.log('用户信息更新成功', response);
         // 更新本地存储的用户信息
@@ -109,9 +129,7 @@ App({
           wx.setStorageSync('userInfo', response.data);
           this.globalData.userInfo = response.data;
         }
-      })
-      .catch(error => {
-        console.error('用户信息更新失败', error);
+        return response;
       });
   },
 

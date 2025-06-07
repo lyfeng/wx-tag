@@ -7,6 +7,16 @@ import lombok.Data;
 @Data
 public class HomeResponse{
     /**
+     * 用户昵称
+     */
+    private String nickName;
+
+    /**
+     * 用户头像
+     */
+    private String avatarUrl;
+
+    /**
      * 我是否给自己打过标签
      */
     private Boolean hasTaggedForMySelf;

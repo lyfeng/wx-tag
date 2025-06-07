@@ -81,8 +81,11 @@ function addToken(config) {
   if (token) {
     config.header = {
       ...config.header,
-      'token': token
+      'Authorization': `Bearer ${token}`
     };
+    console.log('添加认证头，token前缀:', token.substring(0, 20) + '...');
+  } else {
+    console.warn('请求未携带token，可能影响需要认证的接口');
   }
   return config;
 }
@@ -107,21 +110,31 @@ function request(method, url, data = null, customConfig = {}) {
     wx.request({
       ...config,
       success: (res) => {
+        console.log('接口响应数据:', {
+          url: config.url,
+          statusCode: res.statusCode,
+          response: res.data
+        });
+        
         if (res.statusCode === 200) {
-          if (res.data.code === 0) {
+          if (res.data.code === 0 || res.data.code === 200) {
             resolve(res.data);
           } else if (res.data.code === 401) {
             // token失效，清除登录状态
             clearAuth();
             reject(new Error('登录已过期'));
           } else {
-            reject(new Error(res.data.msg || '请求失败'));
+            reject(new Error(`请求失败: ${res.data.msg || '未知错误'} (code: ${res.data.code})`));
           }
         } else {
-          reject(new Error(`HTTP错误：${res.statusCode}`));
+          reject(new Error(`HTTP错误：${res.statusCode}, 响应数据: ${JSON.stringify(res.data)}`));
         }
       },
       fail: (err) => {
+        console.error('网络请求失败:', {
+          url: config.url,
+          error: err
+        });
         reject(new Error('网络请求失败：' + err.errMsg));
       }
     });

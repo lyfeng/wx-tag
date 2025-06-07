@@ -35,6 +35,10 @@ Page({
         selected: 0
       });
     }
+    
+    // 每次显示页面时重新加载数据
+    this.getUserInfo();
+    this.getHomeData();
   },
 
   // 检查登录状态
@@ -354,21 +358,64 @@ Page({
     console.log('广告被关闭');
   },
 
+  // 将图片转换为base64
+  async imageToBase64(filePath) {
+    return new Promise((resolve, reject) => {
+      wx.getFileSystemManager().readFile({
+        filePath,
+        encoding: 'base64',
+        success: res => {
+          resolve('data:image/jpeg;base64,' + res.data);
+        },
+        fail: err => {
+          console.error('图片转base64失败：', err);
+          reject(err);
+        }
+      });
+    });
+  },
+
   // 选择头像
   async onChooseAvatar(e) {
     const { avatarUrl } = e.detail;
     
     try {
+      let finalAvatarUrl = avatarUrl;
+      
+      // 如果不是微信头像，需要转换为base64
+      if (e.detail.source !== 'avatar') {
+        wx.showLoading({
+          title: '处理中...',
+          mask: true
+        });
+        
+        try {
+          // 压缩图片
+          const compressRes = await wx.compressImage({
+            src: avatarUrl,
+            quality: 80
+          });
+          
+          // 转换为base64
+          finalAvatarUrl = await this.imageToBase64(compressRes.tempFilePath);
+        } catch (error) {
+          console.error('图片处理失败：', error);
+          throw new Error('图片处理失败');
+        } finally {
+          wx.hideLoading();
+        }
+      }
+      
       // 更新用户信息
       const userInfo = this.data.userInfo || {};
-      userInfo.avatarUrl = avatarUrl;
+      userInfo.avatarUrl = finalAvatarUrl;
       
       this.setData({
         userInfo
       });
       
       // 更新到服务器
-      app.updateUserInfo(userInfo);
+      await app.updateUserInfo(userInfo);
 
       wx.showToast({
         title: '头像更新成功',

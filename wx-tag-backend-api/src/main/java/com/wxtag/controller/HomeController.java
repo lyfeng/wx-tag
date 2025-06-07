@@ -5,6 +5,8 @@ import com.wxtag.model.response.HomeResponse;
 import com.wxtag.model.response.LoginResponse;
 import com.wxtag.model.request.LoginRequest;
 import com.wxtag.service.UserTagService;
+import com.wxtag.service.WxUserService;
+import com.wxtag.model.WxUserDTO;
 import com.wxtag.util.JwtUtil;
 import com.wxtag.common.ApiResponse;
 import lombok.RequiredArgsConstructor;
@@ -39,6 +41,7 @@ public class HomeController {
     private final AiCommentService aiCommentService;
     private final UserTagMapper userTagMapper;
     private final WxMaService wxMaService;
+    private final WxUserService wxUserService;
 
     @Value("${ai.comment.minTaggerCount:3}")
     private int minTaggerCount;
@@ -113,10 +116,15 @@ public class HomeController {
             // 生成token
             String token = jwtUtil.generateToken(wxSession.getOpenid());
             
+            // 查询用户信息
+            WxUserDTO userInfo = wxUserService.getUserByOpenId(wxSession.getOpenid());
+            
             // 构建响应
             LoginResponse loginResponse = LoginResponse.builder()
                     .token(token)
                     .openid(wxSession.getOpenid())
+                    .nickName(userInfo != null ? userInfo.getNickName() : null)
+                    .avatarUrl(userInfo != null ? userInfo.getAvatarUrl() : null)
                     .build();
             
             log.info("登录成功，已生成 token");

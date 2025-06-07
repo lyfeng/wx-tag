@@ -10,13 +10,14 @@
     "pages/tagSuccess/tagSuccess",
     "pages/taggedByMe/taggedByMe",
     "pages/friendDetail/friendDetail",
-    "pages/inviteTasks/inviteTasks"
+    "pages/inviteTasks/inviteTasks",
+    "pages/userProfile/userProfile"
   ],
   "window": {
     "backgroundTextStyle": "light",
-    "navigationBarBackgroundColor": "#4095E5",
+    "navigationBarBackgroundColor": "#fff",
     "navigationBarTitleText": "微标签",
-    "navigationBarTextStyle": "white"
+    "navigationBarTextStyle": "black"
   },
   "tabBar": {
     "custom": true,

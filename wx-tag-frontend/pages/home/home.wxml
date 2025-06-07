@@ -2,7 +2,9 @@
 <view class="container">
   <!-- 用户信息 -->
   <view class="user-info">
-    <button class="avatar-wrapper" open-type="chooseAvatar" bindchooseavatar="onChooseAvatar">
+    <button class="avatar-wrapper" 
+            open-type="chooseAvatar" 
+            bindchooseavatar="onChooseAvatar">
       <image class="avatar" src="{{userInfo.avatarUrl || '/images/empty.png'}}" mode="aspectFill"></image>
     </button>
     <view class="user-info-text">

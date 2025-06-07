@@ -136,7 +136,9 @@
   "message": "登录成功",
   "data": {
     "token": "jwt_token_string",
-    "openid": "wx_open_id"
+    "openid": "wx_open_id",
+    "nickName": "用户昵称",
+    "avatarUrl": "用户头像URL"
   },
   "success": true
 }

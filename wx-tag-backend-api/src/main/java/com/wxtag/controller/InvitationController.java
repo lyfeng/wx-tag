@@ -68,13 +68,11 @@ public class InvitationController {
                 return ApiResponse.fail("用户信息不存在");
             }
             
-            logger.info("获取用户信息成功：nickname={}", wxUser.getNickname());
+            logger.info("获取用户信息成功：nickName={}", wxUser.getNickName());
             
             // 构建邀请对象
             InvitationDTO invitation = new InvitationDTO();
             invitation.setOpenid(openid);
-            invitation.setNickname(wxUser.getNickname());
-            invitation.setAvatarUrl(wxUser.getAvatarUrl());
             
             // 生成邀请码
             String invitationCode = UUID.randomUUID().toString().replace("-", "");

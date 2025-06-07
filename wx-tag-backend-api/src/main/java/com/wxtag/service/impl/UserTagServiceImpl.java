@@ -61,15 +61,89 @@ public class UserTagServiceImpl implements UserTagService {
     @Override
     public List<UserTagSummaryDTO> getUserGivenTags(String openid) {
         logger.info("获取用户给他人的标签, openid: {}", openid);
+        // 1. 获取标签汇总信息
         List<UserTagSummary> summaries = userTagMapper.selectGivenTagsByOpenid(openid);
-        return convertToDTO(summaries);
+        
+        // 2. 提取所有被标记用户的openid
+        List<String> targetOpenids = summaries.stream()
+                .map(UserTagSummary::getOpenid)
+                .distinct()
+                .collect(Collectors.toList());
+        
+        // 3. 批量查询用户信息
+        Map<String, WxUser> userMap = new HashMap<>();
+        if (!targetOpenids.isEmpty()) {
+            List<WxUser> wxUsers = wxUserMapper.selectByOpenIds(targetOpenids);
+            userMap = wxUsers.stream()
+                    .collect(Collectors.toMap(WxUser::getOpenId, user -> user));
+        }
+        
+        // 4. 转换为DTO并添加用户信息
+        List<UserTagSummaryDTO> dtos = new ArrayList<>();
+        for (UserTagSummary summary : summaries) {
+            UserTagSummaryDTO dto = new UserTagSummaryDTO();
+            BeanUtils.copyProperties(summary, dto);
+            
+            // 设置标签列表
+            if (summary.getTagSummary() != null) {
+                dto.setTags(Arrays.asList(summary.getTagSummary().split(",")));
+            }
+            
+            // 设置用户信息
+            WxUser wxUser = userMap.get(summary.getOpenid());
+            if (wxUser != null) {
+                dto.setNickname(wxUser.getNickName());
+                dto.setAvatarUrl(wxUser.getAvatarUrl());
+            }
+            
+            dtos.add(dto);
+        }
+        
+        return dtos;
     }
     
     @Override
     public List<UserTagSummaryDTO> getUserReceiveTags(String openid) {
         logger.info("获取用户收到的标签, openid: {}", openid);
+        // 1. 获取标签汇总信息
         List<UserTagSummary> summaries = userTagMapper.selectReceivedTagsByOpenid(openid);
-        return convertToDTO(summaries);
+        
+        // 2. 提取所有打标签用户的openid
+        List<String> taggerOpenids = summaries.stream()
+                .map(UserTagSummary::getTaggerOpenid)
+                .distinct()
+                .collect(Collectors.toList());
+        
+        // 3. 批量查询打标签用户信息
+        Map<String, WxUser> userMap = new HashMap<>();
+        if (!taggerOpenids.isEmpty()) {
+            List<WxUser> wxUsers = wxUserMapper.selectByOpenIds(taggerOpenids);
+            userMap = wxUsers.stream()
+                    .collect(Collectors.toMap(WxUser::getOpenId, user -> user));
+        }
+        
+        // 4. 转换为DTO并添加用户信息
+        List<UserTagSummaryDTO> dtos = new ArrayList<>();
+        for (UserTagSummary summary : summaries) {
+            UserTagSummaryDTO dto = new UserTagSummaryDTO();
+            BeanUtils.copyProperties(summary, dto);
+            
+            // 设置标签列表
+            if (summary.getTagSummary() != null) {
+                dto.setTags(Arrays.asList(summary.getTagSummary().split(",")));
+            }
+            
+            // 设置打标签用户信息
+            WxUser tagger = userMap.get(summary.getTaggerOpenid());
+            if (tagger != null) {
+                dto.setTaggerNickname(tagger.getNickName());
+                dto.setTaggerAvatarUrl(tagger.getAvatarUrl());
+            }
+            
+            dtos.add(dto);
+        }
+        
+        return dtos;
     }
     
     @Override
@@ -124,11 +198,7 @@ public class UserTagServiceImpl implements UserTagService {
         UserTagSummary summary = new UserTagSummary();
         summary.setUserTagSummaryUuid(userTagSummaryUuid);
         summary.setOpenid(invitation.getOpenid());
-        summary.setNickname(targetUser.getNickname());
-        summary.setAvatarUrl(targetUser.getAvatarUrl());
         summary.setTaggerOpenid(taggerOpenid);
-        summary.setTaggerNickname(tagger.getNickname());
-        summary.setTaggerAvatarUrl(tagger.getAvatarUrl());
         summary.setInvitationUuid(request.getInvitationUuid());
         summary.setTagSummary(String.join(",", request.getTags()));
         summary.setCreatedAt(new Date());
@@ -149,6 +219,16 @@ public class UserTagServiceImpl implements UserTagService {
         logger.info("获取首页数据, openid: {}", openid);
         
         HomeResponse response = new HomeResponse();
+        
+        // 获取用户信息
+        WxUser wxUser = wxUserMapper.selectByOpenId(openid);
+        if (wxUser != null) {
+            String nickname = wxUser.getNickName();
+            response.setNickName(nickname != null && !nickname.trim().isEmpty() ? nickname : "微信用户");
+            response.setAvatarUrl(wxUser.getAvatarUrl());
+        } else {
+            response.setNickName("微信用户");
+        }
         
         // 获取总标签数
         Integer totalCount = userTagMapper.countTotalTagsByOpenid(openid);

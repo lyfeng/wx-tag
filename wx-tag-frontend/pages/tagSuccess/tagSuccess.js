@@ -81,7 +81,7 @@ Page({
    * 返回首页
    */
   goHome() {
-    wx.switchTab({
+    wx.reLaunch({
       url: '/pages/home/home'
     });
   },

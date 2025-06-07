@@ -1,0 +1,48 @@
+<view class="container">
+  <!-- 第一步：获取头像授权 -->
+  <block wx:if="{{step === 1}}">
+    <view class="auth-header">
+      <text class="title">设置头像</text>
+      <text class="subtitle">请选择您的头像</text>
+    </view>
+    
+    <view class="auth-content">
+      <button class="avatar-btn" 
+              open-type="chooseAvatar" 
+              bindchooseavatar="onChooseAvatar">
+        <image class="avatar-preview" 
+               src="{{tempUserInfo.avatarUrl || '/images/empty.png'}}" 
+               mode="aspectFill"
+        ></image>
+        <text class="auth-text">点击设置头像</text>
+      </button>
+      <text class="auth-tip">支持使用微信头像、相册照片或拍照</text>
+    </view>
+  </block>
+
+  <!-- 第二步：设置昵称 -->
+  <block wx:if="{{step === 2}}">
+    <view class="auth-header">
+      <text class="title">设置昵称</text>
+      <text class="subtitle">请输入您的昵称</text>
+    </view>
+
+    <view class="auth-content">
+      <view class="nickname-box">
+        <input class="nickname-input" 
+               type="text"
+               placeholder="请输入昵称" 
+               value="{{tempUserInfo.nickName}}" 
+               bindinput="onNicknameInput"
+               focus="{{true}}"
+        />
+      </view>
+      
+      <button class="submit-btn {{tempUserInfo.nickName ? '' : 'disabled'}}" 
+              bindtap="handleSubmit" 
+              disabled="{{!tempUserInfo.nickName}}">
+        完成
+      </button>
+    </view>
+  </block>
+</view> 
