@@ -8,7 +8,6 @@ Page({
   },
 
   onLoad(options) {
-    console.log('landingDetail onLoad options:', options);
     const { userIndex } = options;
     
     if (userIndex !== undefined) {

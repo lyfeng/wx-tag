@@ -75,7 +75,6 @@ Page({
       
       // 使用新的API获取我给他人的标签
       const response = await userTagApi.getGivenTags();
-      console.log('获取我给他人的标签返回:', response);
       
       if (response.success && response.data) {
         // 按被标记用户分组
@@ -112,7 +111,6 @@ Page({
         });
       }
     } catch (error) {
-      console.error('获取好友列表失败', error);
       wx.showToast({
         title: error.message || '加载失败',
         icon: 'none'
@@ -145,7 +143,6 @@ Page({
 
   // 好友头像加载错误处理
   onFriendAvatarError(e) {
-    console.log('好友头像加载失败:', e);
     const index = e.currentTarget.dataset.index;
     this.setData({
       [`friendList[${index}].avatarUrl`]: '/images/empty.png'

@@ -24,8 +24,6 @@ Page({
    * 生命周期函数--监听页面加载
    */
   onLoad(options) {
-    // 调试：打印页面参数
-    console.log('onLoad options:', options);
     // 只支持通过openId参数传递
     const { openId, openid, nickname } = options;
     const finalOpenId = openId || openid;
@@ -38,8 +36,6 @@ Page({
         avatarUrl: ''
       }
     });
-    // 调试：打印设置后的friendOpenId
-    console.log('设置后的 friendOpenId:', finalOpenId);
     this.loadFriendDetail();
   },
 
@@ -132,7 +128,6 @@ Page({
         icon: 'success'
       });
     } catch (err) {
-      console.error('生成AI分析失败', err);
       wx.showToast({
         title: err.message || '分析失败',
         icon: 'none'
@@ -145,8 +140,6 @@ Page({
   // 加载好友详情
   async loadFriendDetail() {
     this.setData({ loading: true });
-    // 调试：打印请求前的friendOpenId
-    console.log('请求前的 friendOpenId:', this.data.friendOpenId);
     if (!this.data.friendOpenId) {
       wx.showToast({
         title: 'openId缺失，无法获取好友信息',
@@ -161,7 +154,6 @@ Page({
       const token = wx.getStorageSync('token');
       if (!token) {
         // 如果没有token，先尝试登录
-        console.log('用户未登录，尝试登录...');
         await this.performLogin();
         
         // 登录成功后再次检查token
@@ -204,8 +196,6 @@ Page({
         // 给Ta打标签的人数
         const totalPeople = data.tagUserCount || 0;
         
-        console.log('更新朋友信息:', updatedFriendInfo);
-        
         this.setData({
           friendInfo: updatedFriendInfo, // 使用更新后的朋友信息
           myTags: myTags.map(tagName => ({ tagName })), // 转换为对象格式
@@ -218,7 +208,6 @@ Page({
         throw new Error(result.message || '获取好友标签信息失败');
       }
     } catch (error) {
-      console.error('获取好友详情失败', error);
       wx.showToast({
         title: error.message || '加载失败',
         icon: 'none'
@@ -265,14 +254,12 @@ Page({
       await this.loadFriendDetail()
       wx.stopPullDownRefresh()
     } catch (error) {
-      console.error('刷新失败', error)
       wx.stopPullDownRefresh()
     }
   },
 
   // 头像加载错误处理
   onAvatarError(e) {
-    console.log('头像加载失败:', e);
     this.setData({
       'friendInfo.avatarUrl': '/images/empty.png'
     });

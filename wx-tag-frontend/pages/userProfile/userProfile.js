@@ -13,12 +13,9 @@ Page({
   },
 
   onLoad(options) {
-    console.log('用户信息设置页面加载，参数：', options);
-    
     // 保存返回页面路径
     if (options.returnPage) {
       const returnPage = decodeURIComponent(options.returnPage);
-      console.log('保存返回页面路径：', returnPage);
       this.setData({
         returnPage: returnPage
       });
@@ -49,7 +46,6 @@ Page({
           resolve('data:image/jpeg;base64,' + res.data);
         },
         fail: err => {
-          console.error('图片转base64失败：', err);
           reject(err);
         }
       });
@@ -80,7 +76,6 @@ Page({
           // 转换为base64
           finalAvatarUrl = await this.imageToBase64(compressRes.tempFilePath);
         } catch (error) {
-          console.error('图片处理失败：', error);
           throw new Error('图片处理失败');
         } finally {
           wx.hideLoading();
@@ -96,7 +91,6 @@ Page({
         this.setData({ step: 2 });
       }, 500);
     } catch (error) {
-      console.error('头像处理失败：', error);
       wx.showToast({
         title: '头像设置失败',
         icon: 'none'
@@ -168,7 +162,6 @@ Page({
           wx.redirectTo({
             url: this.data.returnPage,
             fail: (error) => {
-              console.error('跳转到返回页面失败：', error);
               // 如果跳转失败，则跳转到首页
               wx.switchTab({
                 url: '/pages/home/home'

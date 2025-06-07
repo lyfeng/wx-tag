@@ -9,8 +9,6 @@ Page({
   },
 
   onLoad(options) {
-    console.log('登录页面加载，参数：', options);
-    
     // 判断是否支持getUserProfile接口
     if (wx.getUserProfile) {
       this.setData({
@@ -21,8 +19,6 @@ Page({
     // 保存返回页面路径
     if (options.returnPage) {
       const returnPage = decodeURIComponent(options.returnPage);
-      console.log('解码前的returnPage:', options.returnPage);
-      console.log('解码后的returnPage:', returnPage);
       this.setData({
         returnPage: returnPage
       });
@@ -55,7 +51,6 @@ Page({
           // 用户信息不完整，跳转到信息设置页面，并传递返回页面参数
           const returnPageParam = this.data.returnPage ? 
             `?returnPage=${encodeURIComponent(this.data.returnPage)}` : '';
-          console.log('跳转到用户信息设置页面，参数:', returnPageParam);
           wx.redirectTo({
             url: `/pages/userProfile/userProfile${returnPageParam}`
           });
@@ -69,21 +64,14 @@ Page({
 
   // 处理登录成功后的跳转
   handleLoginSuccess() {
-    console.log('处理登录成功跳转，返回页面：', this.data.returnPage);
-    
     // 确保全局登录状态已更新
     app.globalData.isLoggedIn = true;
     
     if (this.data.returnPage) {
       // 如果有返回页面，则跳转到返回页面
-      console.log('即将跳转到返回页面:', this.data.returnPage);
       wx.redirectTo({
         url: this.data.returnPage,
-        success: () => {
-          console.log('跳转成功');
-        },
         fail: (error) => {
-          console.error('跳转到返回页面失败：', error);
           // 如果跳转失败，则跳转到首页
           wx.switchTab({
             url: '/pages/home/home'

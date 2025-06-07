@@ -2,7 +2,7 @@
   <!-- 头部标题 -->
   <view class="header">
     <view class="title-container">
-      <text class="main-title">匿名标签</text>
+      <text class="main-title">友谊标签</text>
       <text class="sub-title">发现朋友眼中的你</text>
     </view>
     <view class="avatar-container">

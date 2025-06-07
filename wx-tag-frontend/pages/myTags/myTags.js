@@ -66,8 +66,6 @@ Page({
    * 页面相关事件处理函数--监听用户下拉动作
    */
   async onPullDownRefresh() {
-    console.log('下拉刷新开始');
-    
     try {
       await this.loadTagData();
       
@@ -77,7 +75,6 @@ Page({
         duration: 1500
       });
     } catch (error) {
-      console.error('下拉刷新失败:', error);
       wx.stopPullDownRefresh();
       
       wx.showToast({
@@ -118,7 +115,6 @@ Page({
     try {
       // 使用新的API获取他人给我的标签
       const response = await userTagApi.getReceivedTags();
-      console.log('获取他人给我的标签返回:', response);
       
       if (response.success && response.data) {
         const data = response.data;
@@ -146,11 +142,7 @@ Page({
           },
           tagStats: tagStats
         });
-        
-        console.log('处理后的数据:', this.data.tagData);
-        console.log('标签统计:', this.data.tagStats);
       } else {
-        console.log('API返回success为false或data为空:', response);
         this.setData({
           tagData: {
             tagCount: 0,
@@ -162,7 +154,6 @@ Page({
         });
       }
     } catch (err) {
-      console.error('加载标签数据失败', err);
       wx.showToast({
         title: err.message || '加载数据失败',
         icon: 'none'
@@ -233,7 +224,6 @@ Page({
 
   // 用户头像加载错误处理
   onUserAvatarError(e) {
-    console.log('用户头像加载失败:', e);
     this.setData({
       'userInfo.avatarUrl': '/images/empty.png'
     });

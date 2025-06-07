@@ -21,8 +21,6 @@ Page({
   },
 
   onLoad() {
-    console.log('Home页面加载');
-    
     // 检查登录状态
     this.checkLoginStatus();
     this.getUserInfo();
@@ -45,12 +43,9 @@ Page({
   checkLoginStatus() {
     // 使用API工具方法检查登录状态
     if (!apiUtils.isLoggedIn()) {
-      console.log('用户未登录，缺少token');
-      
       // 检查全局登录状态，可能token还在更新过程中
       const app = getApp();
       if (app.globalData.isLoggedIn) {
-        console.log('全局状态显示已登录，可能是时序问题，跳过提示');
         return true;
       }
       
@@ -79,7 +74,7 @@ Page({
       this.setData({ userInfo })
       
     } catch (error) {
-      console.error('获取用户信息失败', error)
+      // 静默处理错误
     }
   },
 
@@ -87,7 +82,6 @@ Page({
   async getHomeData() {
     try {
       const response = await homeApi.getHomeData();
-      console.log('获取首页数据返回:', response);
       
       if (response.success && response.data) {
         const { 
@@ -120,14 +114,10 @@ Page({
           minAiTaggerCount: minAiTaggerCount // 保存最低评价人数要求
         });
         
-        // 打印日志，便于调试
-        console.log('评价人数:', taggerCount);
-        console.log('最低评价人数要求:', minAiTaggerCount);
-        console.log('评价人数是否不足:', isInsufficientTaggerCount);
-        console.log('taggerCountInsufficient:', this.data.taggerCountInsufficient);
+
       }
     } catch (error) {
-      console.error('获取首页数据失败', error);
+      // 静默处理错误
     }
   },
 
@@ -138,8 +128,6 @@ Page({
       if (!this.checkLoginStatus()) {
         return;
       }
-      
-      console.log('开始创建邀请任务');
       
       wx.showLoading({
         title: '创建邀请中...',
@@ -152,15 +140,12 @@ Page({
       
       if (response.success && response.data) {
         const { invitationCode } = response.data;
-        console.log('创建邀请成功，邀请码:', invitationCode);
         
         // 设置邀请码并显示分享弹窗
         this.setData({
           currentInviteCode: invitationCode,
           isShowShareModal: true
         });
-        
-        console.log('显示分享弹窗，状态:', this.data.isShowShareModal);
       } else {
         wx.showToast({
           title: '创建邀请失败',
@@ -169,7 +154,6 @@ Page({
       }
     } catch (error) {
       wx.hideLoading();
-      console.error('创建邀请失败:', error);
       apiUtils.handleError(error, '创建邀请失败');
     }
   },
@@ -181,11 +165,8 @@ Page({
       return;
     }
     
-    console.log('开始创建自我标签邀请任务');
-    
     try {
       const response = await invitationApi.createInvitation();
-      console.log('创建自我标签邀请成功:', response);
       
       if (response.success && response.data) {
         const { invitationCode } = response.data;
@@ -201,7 +182,6 @@ Page({
         });
       }
     } catch (error) {
-      console.error('创建自我标签邀请失败:', error);
       apiUtils.handleError(error, '创建邀请失败');
     }
   },
@@ -214,7 +194,6 @@ Page({
   },
 
   navigateToMyTags() {
-    console.log('点击了别人给我的标签按钮');
     wx.showToast({
       title: '按钮被点击了',
       icon: 'success'
@@ -223,11 +202,7 @@ Page({
     try {
       wx.switchTab({
         url: '/pages/myTags/myTags',
-        success: function(res) {
-          console.log('页面跳转成功', res);
-        },
         fail: function(err) {
-          console.error('页面跳转失败', err);
           wx.showToast({
             title: '页面跳转失败',
             icon: 'none'
@@ -235,7 +210,6 @@ Page({
         }
       });
     } catch (error) {
-      console.error('跳转出现异常', error);
       wx.showToast({
         title: '跳转出现异常',
         icon: 'none'
@@ -266,7 +240,6 @@ Page({
   },
 
   closeShareModal() {
-    console.log('关闭分享弹窗');
     // 设置动画效果，先变为透明，然后再隐藏
     this.setData({
       isClosing: true
@@ -329,14 +302,12 @@ Page({
       }
     } catch (error) {
       wx.hideLoading();
-      console.error('生成AI评语失败:', error);
       apiUtils.handleError(error, '生成AI评语失败');
     }
   },
 
   // 头像加载错误处理
   onAvatarError(e) {
-    console.log('头像加载失败:', e);
     this.setData({
       'userInfo.avatarUrl': '/images/empty.png'
     });
@@ -354,15 +325,15 @@ Page({
 
   // 广告相关事件处理
   onAdLoad() {
-    console.log('广告加载成功');
+    // 广告加载成功
   },
 
   onAdError(err) {
-    console.error('广告加载失败', err);
+    // 广告加载失败
   },
 
   onAdClose() {
-    console.log('广告被关闭');
+    // 广告被关闭
   },
 
   // 将图片转换为base64
@@ -375,7 +346,6 @@ Page({
           resolve('data:image/jpeg;base64,' + res.data);
         },
         fail: err => {
-          console.error('图片转base64失败：', err);
           reject(err);
         }
       });
@@ -406,7 +376,6 @@ Page({
           // 转换为base64
           finalAvatarUrl = await this.imageToBase64(compressRes.tempFilePath);
         } catch (error) {
-          console.error('图片处理失败：', error);
           throw new Error('图片处理失败');
         } finally {
           wx.hideLoading();
@@ -429,7 +398,6 @@ Page({
         icon: 'success'
       });
     } catch (error) {
-      console.error('头像更新失败：', error);
       wx.showToast({
         title: '头像更新失败',
         icon: 'error'
@@ -453,8 +421,6 @@ Page({
 
   // 下拉刷新
   async onPullDownRefresh() {
-    console.log('下拉刷新开始');
-    
     try {
       // 重新获取用户信息和首页数据
       await this.getUserInfo();
@@ -472,7 +438,6 @@ Page({
       // 停止下拉刷新动画
       wx.stopPullDownRefresh();
       
-      console.error('下拉刷新失败:', error);
       wx.showToast({
         title: '刷新失败',
         icon: 'error'

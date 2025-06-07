@@ -53,7 +53,6 @@ const apiUtils = {
   
   // 统一的错误处理
   handleError: (error, defaultMessage = '操作失败') => {
-    console.error('API错误:', error);
     const message = error.message || defaultMessage;
     wx.showToast({
       title: message,

@@ -72,7 +72,6 @@ Page({
     try {
       // 检查用户信息是否存在
       if (!app.globalData.userInfo) {
-        console.log('用户信息不存在，尝试获取用户信息');
         // 这里可以根据实际情况选择重定向到登录页或者调用获取用户信息的方法
         wx.showToast({
           title: '请先登录',
@@ -86,7 +85,6 @@ Page({
       const openid = wx.getStorageSync('openid');
       
       if (!openid) {
-        console.log('openid不存在，需要重新登录');
         wx.showToast({
           title: '请先登录',
           icon: 'none'
@@ -106,7 +104,6 @@ Page({
         closedInvitations
       });
     } catch (err) {
-      console.error('加载邀请任务失败', err);
       wx.showToast({
         title: err.message || '加载失败',
         icon: 'none'
@@ -150,7 +147,6 @@ Page({
         isShowShareModal: true
       });
     } catch (err) {
-      console.error('创建邀请失败', err);
       wx.showToast({
         title: err.message || '创建失败',
         icon: 'none'
@@ -185,7 +181,6 @@ Page({
               icon: 'success'
             });
           } catch (err) {
-            console.error('关闭邀请失败', err);
             wx.showToast({
               title: err.message || '关闭失败',
               icon: 'none'
@@ -223,7 +218,6 @@ Page({
               icon: 'success'
             });
           } catch (err) {
-            console.error('删除邀请失败', err);
             wx.showToast({
               title: err.message || '删除失败',
               icon: 'none'

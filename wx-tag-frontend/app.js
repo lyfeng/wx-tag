@@ -17,12 +17,6 @@ App({
     const openid = wx.getStorageSync('openid');
     const userInfo = wx.getStorageSync('userInfo');
     
-    console.log('App启动时检查登录状态:', {
-      hasToken: !!token,
-      hasOpenid: !!openid,
-      hasUserInfo: !!userInfo
-    });
-    
     // 检查token和用户信息完整性
     if (token) {
       this.globalData.isLoggedIn = true;
@@ -30,13 +24,10 @@ App({
       // 检查用户信息是否完整
       if (userInfo && userInfo.avatarUrl && userInfo.nickName) {
         this.globalData.userInfo = userInfo;
-        console.log('用户信息完整');
       } else {
-        console.log('用户信息不完整');
         this.globalData.userInfo = userInfo || {};
       }
     } else {
-      console.log('用户未登录或登录信息不完整');
       this.globalData.isLoggedIn = false;
       this.globalData.userInfo = null;
     }
@@ -54,8 +45,6 @@ App({
           // 使用新的登录API
           homeApi.login(res.code)
             .then(response => {
-              console.log('登录成功，完整响应数据：', response);
-              
               // 保存登录态
               wx.setStorageSync('token', response.data.token);
               wx.setStorageSync('openid', response.data.openid);
@@ -79,7 +68,6 @@ App({
               }
             })
             .catch(error => {
-              console.error('登录失败', error);
               wx.showToast({
                 title: error.message || '登录失败',
                 icon: 'none',
@@ -90,7 +78,6 @@ App({
               }
             });
         } else {
-          console.error('wx.login 失败：未获取到 code');
           wx.showToast({
             title: '微信登录失败',
             icon: 'none',
@@ -102,7 +89,6 @@ App({
         }
       },
       fail(error) {
-        console.error('wx.login 接口调用失败', error);
         wx.showToast({
           title: '微信登录失败',
           icon: 'none',
@@ -117,7 +103,6 @@ App({
 
   // 更新用户信息
   updateUserInfo: function(userInfo) {
-    console.log('准备更新用户信息到服务器：', userInfo);
     // 延迟引入api模块
     const { userApi } = require('./utils/api');
     
@@ -126,7 +111,6 @@ App({
     
     return userApi.updateUser(userInfo)
       .then(response => {
-        console.log('用户信息更新成功', response);
         // 更新本地存储的用户信息
         if (response.data) {
           wx.setStorageSync('userInfo', response.data);

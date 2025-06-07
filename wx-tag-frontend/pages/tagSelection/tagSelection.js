@@ -40,14 +40,12 @@ Page({
     
     try {
       const response = await userTagApi.getTaggingPageData(this.data.invitationCode);
-      console.log('获取打标签页面数据返回:', response);
       
       if (response.success && response.data) {
         const data = response.data;
         
         // 如果已经打过标签了，跳转到朋友详情页面
         if (data.hasTagged === true) {
-          console.log('用户已打过标签，跳转到朋友详情页面');
           
           wx.showToast({
             title: `您已经给${data.nickname}打过标签了`,
@@ -95,7 +93,6 @@ Page({
         });
       }
     } catch (err) {
-      console.error('获取打标签页面数据失败', err);
       wx.showToast({
         title: err.message || '获取数据失败',
         icon: 'none'
@@ -180,7 +177,6 @@ Page({
       };
       
       const response = await userTagApi.postTags(submitData);
-      console.log('提交标签返回:', response);
       
       if (response.success) {
         // 跳转到成功页面
@@ -189,7 +185,6 @@ Page({
         });
       }
     } catch (err) {
-      console.error('提交标签失败', err);
       wx.showToast({
         title: err.message || '提交失败',
         icon: 'none'

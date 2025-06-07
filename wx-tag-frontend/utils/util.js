@@ -124,7 +124,7 @@ const generateShareConfig = (options) => {
   
   if (!invitationCode) {
     return {
-      title: '微标签 - 给朋友贴标签',
+      title: '友谊标签 - 给朋友贴标签',
       path: '/pages/index/index'
     };
   }
@@ -175,7 +175,6 @@ const copyInvitationCode = (invitationCode) => {
       icon: 'success'
     });
   }).catch((error) => {
-    console.error('复制链接失败', error);
     wx.showToast({
       title: '复制失败',
       icon: 'none'

@@ -16,7 +16,7 @@
   "window": {
     "backgroundTextStyle": "light",
     "navigationBarBackgroundColor": "#fff",
-    "navigationBarTitleText": "微标签",
+    "navigationBarTitleText": "友谊标签",
     "navigationBarTextStyle": "black"
   },
   "tabBar": {
