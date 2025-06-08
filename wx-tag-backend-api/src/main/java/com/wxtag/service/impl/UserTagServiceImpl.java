@@ -275,11 +275,7 @@ public class UserTagServiceImpl implements UserTagService {
     public UserTagHomeResponse getTagHomeData(String invitationCode,String openId) {
         logger.info("获取打标签页面数据, invitationCode: {}", invitationCode);
         
-        WxUser wxUser = wxUserMapper.selectByOpenId(openId);
-        if (wxUser == null) {
-            logger.error("获取打标签页面数据失败：openId为空:{}", openId);
-            return null;
-        }
+        
 
         // 首先检查用户是否已经对这个邀请打过标签
         Integer tagCount = userTagMapper.countTagsByTaggerAndInvitation(openId, invitationCode);
@@ -290,6 +286,11 @@ public class UserTagServiceImpl implements UserTagService {
             return null;
         }
         
+        WxUser wxUser = wxUserMapper.selectByOpenId(invitation.getOpenid());
+        if (wxUser == null) {
+            logger.error("获取打标签页面数据失败：邀请的openId为空:{}", invitation.getOpenid());
+            return null;
+        }
         
         
         UserTagHomeResponse response = new UserTagHomeResponse();

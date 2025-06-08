@@ -24,16 +24,6 @@ public class Invitation {
     private String openid;
     
     /**
-     * 发起邀请的用户昵称
-     */
-    private String nickname;
-    
-    /**
-     * 发起邀请的用户头像URL
-     */
-    private String avatarUrl;
-    
-    /**
      * 邀请码
      */
     private String invitationCode;

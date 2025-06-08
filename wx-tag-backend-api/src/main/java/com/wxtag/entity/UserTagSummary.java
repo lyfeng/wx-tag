@@ -24,29 +24,9 @@ public class UserTagSummary {
     private String openid;
     
     /**
-     * 被标记的用户昵称
-     */
-    private String nickname;
-    
-    /**
-     * 被标记的用户头像URL
-     */
-    private String avatarUrl;
-    
-    /**
      * 打标签的用户openid
      */
     private String taggerOpenid;
-    
-    /**
-     * 打标签的用户昵称
-     */
-    private String taggerNickname;
-    
-    /**
-     * 打标签的用户头像URL
-     */
-    private String taggerAvatarUrl;
     
     /**
      * 邀请UUID

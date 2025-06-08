@@ -24,8 +24,6 @@ import jakarta.servlet.http.HttpServletRequest;
 import com.wxtag.service.AiCommentService;
 import com.wxtag.mapper.UserTagMapper;
 import cn.binarywang.wx.miniapp.api.WxMaService;
-import java.util.Map;
-import java.util.HashMap;
 
 @RestController
 @RequiredArgsConstructor

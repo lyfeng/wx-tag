@@ -18,11 +18,29 @@ Page({
   },
 
   onLoad(options) {
-    // 获取邀请码
+    // 获取邀请码 - 优先使用参数，其次从本地存储恢复
+    let invitationCode = '';
+    
     if (options.invitationCode) {
-      this.setData({
-        invitationCode: options.invitationCode
-      });
+      invitationCode = options.invitationCode;
+      // 保存到本地存储，防止登录跳转后丢失
+      wx.setStorageSync('temp_invitationCode', invitationCode);
+    } else {
+      // 尝试从本地存储恢复
+      const tempCode = wx.getStorageSync('temp_invitationCode');
+      if (tempCode) {
+        invitationCode = tempCode;
+      }
+    }
+    
+    this.setData({
+      invitationCode: invitationCode
+    });
+    
+    // 检查登录状态
+    if (!app.globalData.isLoggedIn) {
+      this.handleUnauthorized();
+      return;
     }
     
     // 获取当前用户
@@ -32,6 +50,32 @@ Page({
     
     // 加载标签数据
     this.loadTaggingPageData();
+  },
+
+  // 处理未登录状态
+  handleUnauthorized() {
+    wx.showModal({
+      title: '登录提示', 
+      content: '请先登录后再进行打标签操作',
+      confirmText: '去登录',
+      cancelText: '稍后再说',
+      success: (res) => {
+        if (res.confirm) {
+          // 构建返回页面URL，包含邀请码参数
+          const currentPageUrl = `/pages/tagSelection/tagSelection?invitationCode=${this.data.invitationCode}`;
+          const returnPageParam = encodeURIComponent(currentPageUrl);
+          
+          wx.redirectTo({
+            url: `/pages/index/index?returnPage=${returnPageParam}`
+          });
+        } else {
+          // 用户取消登录，返回首页
+          wx.switchTab({
+            url: '/pages/home/home'
+          });
+        }
+      }
+    });
   },
   
   // 加载打标签页面数据
@@ -179,6 +223,9 @@ Page({
       const response = await userTagApi.postTags(submitData);
       
       if (response.success) {
+        // 提交成功，清除临时存储的邀请码
+        wx.removeStorageSync('temp_invitationCode');
+        
         // 跳转到成功页面
         wx.redirectTo({
           url: '/pages/tagSuccess/tagSuccess'
@@ -191,6 +238,24 @@ Page({
       });
     } finally {
       wx.hideLoading();
+    }
+  },
+
+  // 页面显示时的处理
+  onShow() {
+    // 如果当前没有邀请码，尝试从本地存储恢复
+    if (!this.data.invitationCode) {
+      const tempCode = wx.getStorageSync('temp_invitationCode');
+      if (tempCode) {
+        this.setData({
+          invitationCode: tempCode
+        });
+        
+        // 如果用户已登录且有邀请码，重新加载数据
+        if (app.globalData.isLoggedIn) {
+          this.loadTaggingPageData();
+        }
+      }
     }
   },
 

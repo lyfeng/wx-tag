@@ -2,14 +2,20 @@ CREATE DATABASE IF NOT EXISTS wx_tag DEFAULT CHARACTER SET utf8mb4 COLLATE utf8m
 
 USE wx_tag;
 
+drop table if exists wx_user;
+drop table if exists tag;
+drop table if exists user_tag_summary;
+drop table if exists user_tag_detail;
+drop table if exists invitation;
+drop table if exists user_analysis;
 
 -- 用户表
-CREATE TABLE IF NOT EXISTS `wx_user` (
+CREATE TABLE IF NOT EXISTS `wx_tag`.`wx_user` (
   `id` bigint(20) NOT NULL AUTO_INCREMENT COMMENT '用户ID',
   `open_id` varchar(64) NOT NULL COMMENT '微信OpenID',
   `union_id` varchar(64) DEFAULT NULL COMMENT '微信UnionID',
   `nickname` varchar(64) DEFAULT NULL COMMENT '昵称',
-  `avatar_url` varchar(500) DEFAULT NULL COMMENT '头像URL',
+  `avatar_url` text DEFAULT NULL COMMENT '头像URL',
   `gender` tinyint(4) DEFAULT '0' COMMENT '性别：0未知，1男，2女',
   `country` varchar(64) DEFAULT NULL COMMENT '国家',
   `province` varchar(64) DEFAULT NULL COMMENT '省份',
@@ -22,7 +28,7 @@ CREATE TABLE IF NOT EXISTS `wx_user` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT='微信用户表';
 
 -- 标签表
-CREATE TABLE IF NOT EXISTS `tag` (
+CREATE TABLE IF NOT EXISTS `wx_tag`.`tag` (
   `id` bigint(20) NOT NULL AUTO_INCREMENT COMMENT '标签ID',
   `tag_uuid` varchar(36) NOT NULL COMMENT '标签UUID',
   `tag_name` varchar(32) NOT NULL COMMENT '标签名称',
@@ -37,15 +43,11 @@ CREATE TABLE IF NOT EXISTS `tag` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT='标签表';
 
 -- 用户打标签汇总表
-CREATE TABLE IF NOT EXISTS `user_tag_summary` (
+CREATE TABLE IF NOT EXISTS `wx_tag`.`user_tag_summary` (
   `id` bigint(20) NOT NULL AUTO_INCREMENT COMMENT 'ID',
   `user_tag_summary_uuid` varchar(36) NOT NULL COMMENT '用户标签关系UUID',
   `openid` varchar(64) NOT NULL COMMENT '被标记的用户OpenID',
-  `nickname` varchar(64) DEFAULT NULL COMMENT '被标记的用户昵称',
-  `avatar_url` varchar(500) DEFAULT NULL COMMENT '被标记的用户头像URL',
   `tagger_openid` varchar(64) NOT NULL COMMENT '打标签的用户OpenID',
-  `tagger_nickname` varchar(64) DEFAULT NULL COMMENT '打标签的用户昵称',
-  `tagger_avatar_url` varchar(500) DEFAULT NULL COMMENT '打标签的用户头像URL',
   `invitation_uuid` varchar(36) DEFAULT NULL COMMENT '邀请UUID',
   `tag_summary` varchar(1000) NOT NULL COMMENT '标签汇总内容',
   `created_at` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
@@ -58,8 +60,9 @@ CREATE TABLE IF NOT EXISTS `user_tag_summary` (
   KEY `idx_invitation_uuid` (`invitation_uuid`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT='用户标签汇总表';
 
+
 -- 用户打标签明细表
-CREATE TABLE IF NOT EXISTS `user_tag_detail` (
+CREATE TABLE IF NOT EXISTS `wx_tag`.`user_tag_detail` (
   `id` bigint(20) NOT NULL AUTO_INCREMENT COMMENT 'ID',
   `user_tag_summary_uuid` varchar(36) NOT NULL COMMENT '用户标签关系UUID',
   `openid` varchar(64) NOT NULL COMMENT '被标记的用户OpenID',
@@ -78,12 +81,10 @@ CREATE TABLE IF NOT EXISTS `user_tag_detail` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT='用户标签明细表';
 
 -- 邀请任务表
-CREATE TABLE IF NOT EXISTS `invitation` (
+CREATE TABLE IF NOT EXISTS `wx_tag`.`invitation` (
   `id` bigint(20) NOT NULL AUTO_INCREMENT COMMENT '邀请ID',
   `invitation_uuid` varchar(36) NOT NULL COMMENT '邀请UUID',
   `openid` varchar(64) NOT NULL COMMENT '发起邀请的用户OpenID',
-  `nickname` varchar(64) DEFAULT NULL COMMENT '发起邀请的用户昵称',
-  `avatar_url` varchar(500) DEFAULT NULL COMMENT '发起邀请的用户头像URL',
   `invitation_code` varchar(32) NOT NULL COMMENT '邀请码',
   `status` tinyint(4) NOT NULL DEFAULT '1' COMMENT '状态：0已关闭，1进行中',
   `start_time` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '开始时间',
@@ -97,7 +98,7 @@ CREATE TABLE IF NOT EXISTS `invitation` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT='邀请任务表';
 
 -- 用户AI评语表
-CREATE TABLE IF NOT EXISTS `user_analysis` (
+CREATE TABLE IF NOT EXISTS `wx_tag`.`user_analysis` (
   `id` bigint(20) NOT NULL AUTO_INCREMENT COMMENT 'ID',
   `analysis_uuid` varchar(36) NOT NULL COMMENT '分析UUID',
   `open_id` varchar(64) NOT NULL COMMENT '用户OpenID',
