@@ -8,16 +8,7 @@ Page({
   },
 
   onLoad(options) {
-    // 检查登录状态
-    if (app.globalData.isLoggedIn) {
-      // 已登录，跳转到首页
-      wx.switchTab({
-        url: '/pages/home/home'
-      });
-      return;
-    }
-    
-    // 未登录，加载示例数据
+    // 加载示例数据
     this.loadSampleData();
   },
 
@@ -37,19 +28,43 @@ Page({
     });
   },
 
-  // 开始标签 - 跳转到登录页面
+  // 开始标签 - 判断登录状态并跳转
   startTagging() {
-    wx.navigateTo({
-      url: '/pages/index/index'
-    });
-  },
-
-  onShow() {
-    // 每次显示页面时检查登录状态
+    // 检查登录状态
     if (app.globalData.isLoggedIn) {
+      // 已登录，跳转到首页
       wx.switchTab({
         url: '/pages/home/home'
       });
+    } else {
+      // 未登录，跳转到登录页面
+      wx.navigateTo({
+        url: '/pages/index/index'
+      });
     }
-  }
+  },
+
+  onShow() {
+    // 页面显示时不做任何自动跳转
+  },
+
+  /**
+   * 用户点击右上角分享
+   */
+  onShareAppMessage() {
+    return {
+      title: '友谊标签 - 发现朋友眼中的你',
+      path: '/pages/landing/landing',
+      imageUrl: ''
+    };
+  },
+
+  // 分享到朋友圈
+  onShareTimeline() {
+    return {
+      title: '友谊标签 - 发现朋友眼中的你',
+      path: '/pages/landing/landing',
+      imageUrl: ''
+    };
+  },
 });

@@ -9,6 +9,7 @@ import jakarta.servlet.http.HttpServletRequest;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
+import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -38,6 +39,10 @@ public class WxUserController {
             return ApiResponse.fail("OpenID不能为空");
         }
         try {
+            if(StringUtils.isEmpty(user.getAvatarUrl())||StringUtils.isEmpty(user.getNickName())){
+                logger.warn("创建或更新用户失败：头像或昵称不能为空, openId: {}", user.getOpenId());
+                return ApiResponse.fail("头像或昵称不能为空");
+            }
             WxUserDTO savedUser = wxUserService.createOrUpdateUser(user);
             logger.info("用户创建或更新成功, openId: {}, userId: {}", user.getOpenId(), savedUser.getId());
             return ApiResponse.success(savedUser);

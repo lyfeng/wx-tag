@@ -20,7 +20,7 @@ mybatis:
   type-aliases-package: com.wxtag.entity
   configuration:
     map-underscore-to-camel-case: true
-    log-impl: org.apache.ibatis.logging.stdout.StdOutImpl
+#    log-impl: org.apache.ibatis.logging.stdout.StdOutImpl
 
 # 微信小程序配置
 wx:
@@ -49,5 +49,5 @@ ai:
     minTaggerCount: 3
 
 jwt:
-  secret: ${JWT_SECRET:your-jwt-secret-key}
+  secret: ${JWT_SECRET:WxTagJwtSecretKey2024ForProductionUseOnlyDoNotChangeThisKey}
   expiration: 7200000  # 2小时过期

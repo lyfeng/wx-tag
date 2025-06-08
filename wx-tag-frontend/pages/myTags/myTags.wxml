@@ -19,7 +19,7 @@
     <view class="tag-stats">
       <view class="stats-text">已收到 {{tagData.tagCount || 0}} 个标签，共有 {{tagData.tagUserCount || 0}} 人为你打标签</view>
     </view>
-    <button class="share-btn" open-type="share">邀请更多好友打标签</button>
+    <button class="share-btn" open-type="share">炫一炫我收到的标签吧</button>
   </view>
 
   <!-- 标签排行榜 -->

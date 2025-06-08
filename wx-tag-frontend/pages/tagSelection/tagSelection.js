@@ -266,26 +266,24 @@ Page({
     });
   },
 
-  // 分享给朋友（聊天）
-  onShareAppMessage(res) {
-    const { targetUserInfo, invitationCode } = this.data;
-    
-    return util.generateShareConfig({
-      invitationCode,
-      targetUserInfo,
-      type: 'appMessage'
-    });
+  /**
+   * 用户点击右上角分享
+   */
+  onShareAppMessage() {
+    return {
+      title: `来给${this.data.targetUserInfo?.nickname || '好友'}打标签吧！`,
+      path: '/pages/tagSelection/tagSelection?invitationCode=' + this.data.invitationCode,
+      imageUrl: ''
+    };
   },
 
   // 分享到朋友圈
   onShareTimeline() {
-    const { targetUserInfo, invitationCode } = this.data;
-    
-    return util.generateShareConfig({
-      invitationCode,
-      targetUserInfo,
-      type: 'timeline'
-    });
+    return {
+      title: `来给${this.data.targetUserInfo?.nickname || '好友'}打标签吧！`,
+      path: '/pages/tagSelection/tagSelection?invitationCode=' + this.data.invitationCode,
+      imageUrl: ''
+    };
   },
 
   // 自定义分享按钮事件

@@ -49,5 +49,5 @@ ai:
     minTaggerCount: 3
 
 jwt:
-  secret: ${JWT_SECRET:your-jwt-secret-key}
+  secret: ${JWT_SECRET:WxTagJwtSecretKey2024ForProductionUseOnlyDoNotChangeThisKey}
   expiration: 7200000  # 2小时过期

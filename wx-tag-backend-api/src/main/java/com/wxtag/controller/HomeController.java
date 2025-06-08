@@ -16,6 +16,8 @@ import org.springframework.web.client.RestTemplate;
 import org.springframework.web.bind.annotation.*;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+
+import com.alibaba.fastjson.JSON;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.http.ResponseEntity;
 import org.springframework.beans.factory.annotation.Value;
@@ -61,7 +63,7 @@ public class HomeController {
         try {
             log.info("获取用户首页数据, openId: {}", openId);
             HomeResponse homeData = userTagService.getHomeData(openId);
-            log.info("首页数据获取成功, openId: {}", openId);
+            log.info("首页数据获取成功, homeData: {}", homeData.toString());
             return ApiResponse.success(homeData);
         } catch (Exception e) {
             log.error("获取首页数据失败, openId: {}, 错误: {}", openId, e.getMessage(), e);

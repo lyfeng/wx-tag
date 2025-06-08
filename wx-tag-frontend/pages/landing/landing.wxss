@@ -138,9 +138,9 @@
 .tag-item {
   background-color: #4095E5;
   color: white;
-  padding: 6rpx 12rpx;
-  border-radius: 16rpx;
-  font-size: 20rpx;
+  padding: 6rpx 16rpx;
+  border-radius: 20rpx;
+  font-size: 22rpx;
   font-weight: 500;
 }
 

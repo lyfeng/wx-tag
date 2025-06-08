@@ -25,33 +25,41 @@ public class JwtUtil {
     @Value("${jwt.expiration}")
     private Long expiration;
     
-    // 获取签名密钥
+    /**
+     * 获取签名密钥
+     * 使用固定的secret确保应用重启后密钥保持一致
+     */
     private Key getSigningKey() {
-        // 确保密钥长度足够安全 (至少256位)
-        return Keys.secretKeyFor(SignatureAlgorithm.HS512);
-    }
-    
-    // 为了保持密钥一致性，使用单例模式
-    private Key signingKey;
-    
-    private synchronized Key getOrCreateSigningKey() {
-        if (signingKey == null) {
-            // 尝试从配置的secret创建一个安全的密钥
-            // 如果配置的secret不够长，则创建新的安全密钥
-            try {
-                byte[] decodedKey = Base64.getDecoder().decode(secret);
-                // 确保密钥长度至少为32字节(256位)
-                if (decodedKey.length >= 32) {
-                    signingKey = Keys.hmacShaKeyFor(decodedKey);
-                } else {
-                    signingKey = Keys.secretKeyFor(SignatureAlgorithm.HS512);
+        try {
+            // 如果配置的secret是Base64编码的，尝试解码
+            if (secret.length() > 32) {
+                try {
+                    byte[] decodedKey = Base64.getDecoder().decode(secret);
+                    if (decodedKey.length >= 32) {
+                        return Keys.hmacShaKeyFor(decodedKey);
+                    }
+                } catch (Exception e) {
+                    // Base64解码失败，按照普通字符串处理
                 }
-            } catch (Exception e) {
-                // 如果解码失败，创建新的安全密钥
-                signingKey = Keys.secretKeyFor(SignatureAlgorithm.HS512);
             }
+            
+            // 如果secret长度不够，则填充到足够的长度
+            String fixedSecret = secret;
+            while (fixedSecret.length() < 64) {
+                fixedSecret += fixedSecret + "WxTagJwtSecret2024";
+            }
+            
+            // 截取前64个字符确保长度一致
+            fixedSecret = fixedSecret.substring(0, 64);
+            
+            // 使用固定的secret创建密钥
+            return Keys.hmacShaKeyFor(fixedSecret.getBytes(StandardCharsets.UTF_8));
+            
+        } catch (Exception e) {
+            // 如果出现任何异常，使用默认固定secret
+            String defaultSecret = "WxTagJwtSecretKey2024ForProductionUseOnlyDoNotChangeThisKey";
+            return Keys.hmacShaKeyFor(defaultSecret.getBytes(StandardCharsets.UTF_8));
         }
-        return signingKey;
     }
 
     /**
@@ -65,7 +73,7 @@ public class JwtUtil {
                 .setSubject(openId)
                 .setIssuedAt(now)
                 .setExpiration(expiryDate)
-                .signWith(getOrCreateSigningKey())
+                .signWith(getSigningKey())
                 .compact();
     }
 
@@ -74,7 +82,7 @@ public class JwtUtil {
      */
     public String getOpenIdFromToken(String token) {
         Claims claims = Jwts.parserBuilder()
-                .setSigningKey(getOrCreateSigningKey())
+                .setSigningKey(getSigningKey())
                 .build()
                 .parseClaimsJws(token)
                 .getBody();
@@ -87,7 +95,7 @@ public class JwtUtil {
     public boolean validateToken(String token) {
         try {
             Jwts.parserBuilder()
-                .setSigningKey(getOrCreateSigningKey())
+                .setSigningKey(getSigningKey())
                 .build()
                 .parseClaimsJws(token);
             return true;
@@ -102,7 +110,7 @@ public class JwtUtil {
     public boolean isTokenExpired(String token) {
         try {
             Claims claims = Jwts.parserBuilder()
-                    .setSigningKey(getOrCreateSigningKey())
+                    .setSigningKey(getSigningKey())
                     .build()
                     .parseClaimsJws(token)
                     .getBody();

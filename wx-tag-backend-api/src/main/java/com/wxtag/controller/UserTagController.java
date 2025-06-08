@@ -53,7 +53,7 @@ public class UserTagController {
             UserTagHomeResponse response = userTagService.getTagHomeData(invitationCode,openId);
             
             if (response != null) {
-                logger.info("打标签页面数据获取成功: {}", JSON.toJSONString(response));
+                logger.info("打标签页面数据获取成功: {},{}",invitationCode, openId);
                 return ApiResponse.success(response);
             } else {
                 logger.warn("邀请码无效或已过期, invitationCode: {}", invitationCode);

@@ -265,14 +265,11 @@ Page({
    * 用户点击右上角分享
    */
   onShareAppMessage() {
-    if (this.data.currentInvitation) {
-      return {
-        title: '帮我贴个标签，看看我在你眼中是什么样的吧！',
-        path: `/pages/tagForFriend/tagForFriend?code=${this.data.currentInvitation.invitationCode}`,
-        imageUrl: '/images/share_img.png'
-      };
-    }
-    return {};
+    return {
+      title: '友谊标签 - 发现朋友眼中的你',
+      path: '/pages/landing/landing',
+      imageUrl: ''
+    };
   },
 
   // 分享到朋友圈

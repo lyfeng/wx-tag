@@ -190,5 +190,24 @@ Page({
         icon: 'none'
       });
     }
-  }
+  },
+/**
+   * 用户点击右上角分享
+   */
+onShareAppMessage() {
+  return {
+    title: '友谊标签 - 发现朋友眼中的你',
+    path: '/pages/landing/landing',
+    imageUrl: ''
+  };
+},
+
+// 分享到朋友圈
+onShareTimeline() {
+  return {
+    title: '友谊标签 - 发现朋友眼中的你',
+    path: '/pages/landing/landing',
+    imageUrl: ''
+  };
+},
 });

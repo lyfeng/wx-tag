@@ -232,18 +232,18 @@
 .detail-right {
   display: flex;
   flex-wrap: wrap;
-  gap: 12rpx;
+  gap: 10rpx;
   justify-content: flex-end;
   max-width: 50%;
 }
 
 .tag-pill {
   display: inline-block;
-  padding: 8rpx 16rpx;
+  padding: 6rpx 16rpx;
   background-color: #f2f2f2;
   color: #666;
-  border-radius: 24rpx;
-  font-size: 24rpx;
+  border-radius: 20rpx;
+  font-size: 22rpx;
   text-align: center;
   white-space: nowrap;
 }
@@ -273,26 +273,26 @@
 .tag-cloud {
   display: flex;
   flex-wrap: wrap;
-  padding: 24rpx 30rpx;
-  gap: 20rpx;
+  padding: 16rpx 24rpx;
+  gap: 10rpx;
   background: #fff;
 }
 
 .tag-cloud-item {
   display: flex;
   align-items: center;
-  background: #f8f8f8;
-  border-radius: 32rpx;
-  padding: 12rpx 24rpx;
+  background: #f2f2f2;
+  border-radius: 20rpx;
+  padding: 6rpx 16rpx;
 }
 
 .tag-cloud-name {
-  font-size: 28rpx;
+  font-size: 22rpx;
   color: #333;
-  margin-right: 8rpx;
+  margin-right: 4rpx;
 }
 
 .tag-cloud-count {
-  font-size: 28rpx;
+  font-size: 22rpx;
   color: #07C160;
 } 

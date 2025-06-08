@@ -49,7 +49,7 @@
     </view>
     <!-- 有标签时显示标签 -->
     <view class="tag-preview" wx:if="{{tagCounts.length > 0}}">
-      <view class="mini-tag" wx:for="{{tagCounts}}" wx:key="tagName" wx:if="{{index < 5}}">
+      <view class="mini-tag" wx:for="{{tagCounts}}" wx:key="tagName" wx:if="{{index < 50}}">
         {{item.tagName}} <text class="tag-count">{{item.count}}</text>
       </view>
     </view>
@@ -63,7 +63,7 @@
   <!-- AI评语卡片 -->
   <view class="card">
     <view class="card-header">
-      <text class="card-title">AI评语</text>
+      <text class="card-title">智能总结评语</text>
     </view>
     
     <!-- 已生成评语 -->
@@ -76,9 +76,9 @@
       <view class="generate-content">
         <!-- 评价人数不足提示 -->
         <view class="insufficient-tips" wx:if="{{taggerCount}} < {{minAiTaggerCount}}}}">
-          <text class="tips-text">当前评价人数不足{{minAiTaggerCount}}人（{{taggerCount}}/{{minAiTaggerCount}}），邀请更多朋友给您评价后再生成AI评语。</text>
+          <text class="tips-text">当前评价人数不足{{minAiTaggerCount}}人（{{taggerCount}}/{{minAiTaggerCount}}），邀请更多朋友给您评价后再智能生成总结评语。</text>
         </view>
-        <button class="generate-btn" bindtap="generateAIComment">生成AI评语</button>
+        <button class="generate-btn" bindtap="generateAIComment">生成智能总结评语</button>
       </view>
     </view>
   </view>

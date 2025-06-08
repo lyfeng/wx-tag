@@ -124,8 +124,8 @@ const generateShareConfig = (options) => {
   
   if (!invitationCode) {
     return {
-      title: '友谊标签 - 给朋友贴标签',
-      path: '/pages/index/index'
+      title: '友谊标签 - 发现朋友眼中的你',
+      path: '/pages/landing/landing'
     };
   }
   

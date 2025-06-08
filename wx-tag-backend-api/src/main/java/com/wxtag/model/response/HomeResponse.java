@@ -45,4 +45,17 @@ public class HomeResponse{
      * 收到的ai评语
      */
     private String aiContent;
+
+    @Override
+    public String toString() {
+        return "HomeResponse{" +
+                "nickName='" + nickName + '\'' +
+                ", hasTaggedForMySelf=" + hasTaggedForMySelf +
+                ", tagCount=" + tagCount +
+                ", minAiTaggerCount=" + minAiTaggerCount +
+                ", taggerCount=" + taggerCount +
+                ", myTagsCount=" + myTagsCount +
+                ", aiContent='" + aiContent + '\'' +
+                '}';
+    }
 }
