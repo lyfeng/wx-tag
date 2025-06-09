@@ -194,7 +194,7 @@
 
 .start-button {
   width: 100%;
-  height: 100rpx;
+  height: 120rpx;
   background-color: #07C160;
   color: white;
   border-radius: 50rpx;
@@ -229,9 +229,10 @@
 }
 
 .button-text {
-  font-size: 30rpx;
+  font-size: 28rpx;
   font-weight: 600;
   margin-bottom: 4rpx;
+  white-space: nowrap;
 }
 
 .button-subtitle {

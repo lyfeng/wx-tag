@@ -168,7 +168,7 @@
 ```json
 {
   "code": 400,
-  "message": "评价人数不足，至少需要3人评价才能生成AI评语",
+  "message": "评价人数不足，至少需要3人评价才能生成智能评语",
   "data": null,
   "success": false
 }

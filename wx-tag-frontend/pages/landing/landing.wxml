@@ -14,7 +14,7 @@
   <!-- 开始标签按钮 -->
   <view class="action-container">
     <button class="start-button" bindtap="startTagging">
-      <text class="button-text">开始我的标签之旅</text>
+      <text class="button-text">登录并开始我的标签之旅</text>
       <text class="button-subtitle">让朋友们来评价你</text>
     </button>
   </view>

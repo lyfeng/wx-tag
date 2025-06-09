@@ -104,7 +104,7 @@ Page({
         
         // 设置数据
         this.setData({ 
-          tagCounts: processedTagCounts.slice(0, 5), // 只显示前5个
+          tagCounts: processedTagCounts.slice(0, 50), // 只显示前50个
           totalTagCount: tagCount,
           taggerCount: taggerCount, // 设置评价人数
           aiComment: aiContent, // 设置AI评语
@@ -260,7 +260,7 @@ Page({
     if (this.data.taggerCount < this.data.minAiTaggerCount) {
       wx.showModal({
         title: '评价人数不足',
-        content: '当前评价人数不足' + this.data.minAiTaggerCount + '人，请邀请更多朋友给您评价后再生成AI评语。',
+        content: '当前评价人数不足' + this.data.minAiTaggerCount + '人，请邀请更多朋友给您评价后再生成智能评语。',
         confirmText: '去邀请',
         cancelText: '我知道了',
         success: (res) => {
@@ -291,7 +291,7 @@ Page({
         });
         
         wx.showToast({
-          title: 'AI评语已生成',
+          title: '智能评语已生成',
           icon: 'success'
         });
       } else {
@@ -302,7 +302,7 @@ Page({
       }
     } catch (error) {
       wx.hideLoading();
-      apiUtils.handleError(error, '生成AI评语失败');
+      apiUtils.handleError(error, '生成智能评语失败');
     }
   },
 

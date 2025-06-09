@@ -80,7 +80,7 @@
           </view>
         </view>
         <view class="task-footer">
-          <view class="task-action">AI评语已生成</view>
+          <view class="task-action">智能评语已生成</view>
           <view class="task-action action-primary" bindtap="viewResult" data-task-id="{{item.taskId}}">查看结果</view>
         </view>
       </view>
