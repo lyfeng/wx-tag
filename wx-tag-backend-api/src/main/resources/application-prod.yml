@@ -25,15 +25,15 @@ mybatis:
 # 微信小程序配置
 wx:
   miniapp:
-    appid: ${WX_MINIAPP_APPID:wx3d7ebb520ef551a0}
-    secret: ${WX_MINIAPP_SECRET:c69de19a9dec44ee822509e8353c5029}
+    appid: ${WX_MINIAPP_APPID}
+    secret: ${WX_MINIAPP_SECRET}
     token: # 可选
     aesKey: # 可选
     msgDataFormat: JSON
 
 # 阿里云通义千问大模型配置
 aliyun:
-  apiKey: ${ALIYUN_API_KEY:sk-255b89368b474b32ac836851585440f5}
+  apiKey: ${ALIYUN_API_KEY}
   modelName: qwen-turbo
   apiUrl: https://dashscope.aliyuncs.com/api/v1/services/aigc/text-generation/generation
   temperature: 0.7
@@ -49,5 +49,5 @@ ai:
     minTaggerCount: 3
 
 jwt:
-  secret: ${JWT_SECRET:WxTagJwtSecretKey2024ForProductionUseOnlyDoNotChangeThisKey}
+  secret: ${JWT_SECRET}
   expiration: 7200000  # 2小时过期
